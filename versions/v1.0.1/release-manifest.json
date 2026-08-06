@@ -1,0 +1,17 @@
+{
+  "product": "Cello Biochemical Cell Simulator",
+  "version": "1.0.1",
+  "tag": "v1.0.1",
+  "release_date": "2026-08-06",
+  "status": "research-beta",
+  "platform": "Windows",
+  "architecture": "x64",
+  "distribution": "portable-zip",
+  "asset_name": "Cello_1.0.1_Portable_Windows_x64.zip",
+  "asset_size_bytes": 208321846,
+  "asset_sha256": "9f5bef711a02418ea6b2e15016d4dd065ada45e59848cfbeb2e127ab95ea71d3",
+  "zip_entry_count": 1812,
+  "launcher": "Cello_1.0.1_Portable/Run_Simulator.cello.exe",
+  "requires_separate_python": false,
+  "source_in_public_repository": false
+}
