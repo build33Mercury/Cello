@@ -1,0 +1,30 @@
+name: Repository checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate release metadata
+        shell: python
+        run: |
+          from pathlib import Path
+          import json, re
+
+          version = Path("VERSION").read_text(encoding="utf-8").strip()
+          manifest = json.loads(Path(f"versions/v{version}/release-manifest.json").read_text(encoding="utf-8"))
+          assert manifest["version"] == version, "VERSION and release manifest disagree"
+
+          checksum = Path(f"versions/v{version}/SHA256SUMS.txt").read_text(encoding="utf-8").strip()
+          assert re.fullmatch(r"[0-9a-f]{64}  Cello_[^\s]+\.zip", checksum), "Invalid SHA256SUMS format"
+
+          changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
+          assert f"## [{version}]" in changelog, "Current version missing from CHANGELOG"
+          print(f"Cello repository metadata PASS: v{version}")
