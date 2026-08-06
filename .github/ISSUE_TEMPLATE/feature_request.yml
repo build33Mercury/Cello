@@ -1,0 +1,39 @@
+name: Feature request
+description: Propose a product, developer, or scientific-model improvement
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - User interface
+        - Developer tooling
+        - Biochemical model
+        - Visualization
+        - Export or reproducibility
+        - Documentation
+        - Packaging or installation
+    validations:
+      required: true
+  - type: textarea
+    id: need
+    attributes:
+      label: Problem or need
+      description: Explain the concrete problem this feature would solve.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Scientific evidence or assumptions
+      description: Required for biochemical-model requests; otherwise write “Not applicable.”
+    validations:
+      required: true
