@@ -1,0 +1,36 @@
+# Operating-system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Logs and caches
+*.log
+.cache/
+
+# Release binaries are uploaded to GitHub Releases, not committed
+*.exe
+*.msi
+*.zip
+*.7z
+*.rar
+
+# Keep version metadata and checksums
+!versions/**/*.txt
+!versions/**/*.md
+!versions/**/*.json

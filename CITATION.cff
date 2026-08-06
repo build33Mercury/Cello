@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use Cello in a project, cite this software release."
+title: "Cello: Biochemical Cell Simulator"
+type: software
+authors:
+  - family-names: Bitar
+    given-names: Abdsalam
+version: 1.0.1
+date-released: 2026-08-06
+license: LicenseRef-Proprietary
+abstract: >-
+  Cello is an interactive biochemical cell simulator and developer-oriented
+  visualization platform distributed as a portable Windows research-beta demo.
+keywords:
+  - biochemistry
+  - cell simulation
+  - systems biology
+  - scientific visualization
+  - computational biology
