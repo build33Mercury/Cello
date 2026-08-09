@@ -17,9 +17,7 @@ Download the current Windows build from the repository's **Releases** page:
 
 The release asset should be named:
 
-```text
 Cello_1.0.1_Portable_Windows_x64.zip
-```
 
 Do not download the automatically generated GitHub “Source code” ZIP expecting the application. The executable build is attached separately as a release asset.
 
