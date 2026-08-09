@@ -1,4 +1,4 @@
-# Cello
+# Cello v1.0.1
 
 ![Version](https://img.shields.io/badge/version-1.0.1-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
@@ -8,11 +8,6 @@
 **Cello is an interactive biochemical cell simulator and developer-oriented visualization platform.**
 
 The current release provides a usable Windows demo for exploring cellular components, biochemical processes, model state, and experimental interventions through an interactive three-dimensional interface.
-
-> **Current release:** v1.0.1  
-> **Release date:** August 6, 2026  
-> **Platform:** Windows x64  
-> **Distribution:** Portable ZIP; no separate Python installation required
 
 ## Download
 
