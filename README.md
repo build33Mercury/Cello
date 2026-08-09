@@ -98,12 +98,6 @@ SHA-256 for the official v1.0.1 Windows ZIP:
 
 Verification instructions are included in **[INSTALL.md](INSTALL.md)**.
 
-## Author
-
-**Abdsalam Bitar**  
-Independent developer  
-Amman, Jordan
-
 # Changelog
 
 All notable changes to Cello are documented here.
