@@ -1,0 +1,2 @@
+# Cache key anchor for the isolated Cello 1.1 Windows build.
+# Runtime/build dependencies are installed explicitly by the workflow.
