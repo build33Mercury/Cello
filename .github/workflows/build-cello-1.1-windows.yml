@@ -22,7 +22,6 @@ jobs:
         with:
           python-version: '3.12'
           architecture: 'x64'
-          cache: 'pip'
 
       - name: Install extraction and build tools
         shell: pwsh
@@ -38,9 +37,7 @@ jobs:
           $b64 = ($parts | ForEach-Object { (Get-Content $_.FullName -Raw).Trim() }) -join ''
           [IO.File]::WriteAllBytes("$PWD/cello_1_1_patch.zip", [Convert]::FromBase64String($b64))
           $sha = (Get-FileHash "$PWD/cello_1_1_patch.zip" -Algorithm SHA256).Hash.ToLower()
-          if ($sha -ne "21053aed4cbf4df12902e02971cbd057cc79bf44fa0ce6bffaf909ae74af64e9") {
-            throw "Cello 1.1 patch checksum mismatch: $sha"
-          }
+          if ($sha -ne "21053aed4cbf4df12902e02971cbd057cc79bf44fa0ce6bffaf909ae74af64e9") { throw "Cello 1.1 patch checksum mismatch: $sha" }
           Write-Host "PATCH_SHA256_PASS $sha"
 
       - name: Download authoritative Cello 1.0.1 Windows baseline
@@ -49,9 +46,7 @@ jobs:
           $url = "https://github.com/build33Mercury/Cello/releases/download/v1.0.1/Cello_1.0.1_Portable_Windows_x64.zip"
           Invoke-WebRequest -Uri $url -OutFile "$PWD/cello_1_0_1.zip"
           $sha = (Get-FileHash "$PWD/cello_1_0_1.zip" -Algorithm SHA256).Hash.ToLower()
-          if ($sha -ne "9f5bef711a02418ea6b2e15016d4dd065ada45e59848cfbeb2e127ab95ea71d3") {
-            throw "v1.0.1 baseline checksum mismatch: $sha"
-          }
+          if ($sha -ne "9f5bef711a02418ea6b2e15016d4dd065ada45e59848cfbeb2e127ab95ea71d3") { throw "v1.0.1 baseline checksum mismatch: $sha" }
           Expand-Archive -Path "$PWD/cello_1_0_1.zip" -DestinationPath "$PWD/old" -Force
           Write-Host "BASELINE_SHA256_PASS $sha"
 
@@ -60,9 +55,7 @@ jobs:
         run: |
           $exe = (Resolve-Path "$PWD/old/Cello_1.0.1_Portable/Run_Simulator.cello.exe").Path
           pyinstxtractor-ng "$exe"
-          $entry = Get-ChildItem -Path $PWD -Recurse -Filter "entry.pyc" -File |
-            Where-Object { $_.FullName -match '[\\/]cello_p10[\\/]entry\.pyc$' } |
-            Select-Object -First 1
+          $entry = Get-ChildItem -Path $PWD -Recurse -Filter "entry.pyc" -File | Where-Object { $_.FullName -match '[\\/]cello_p10[\\/]entry\.pyc$' } | Select-Object -First 1
           if (-not $entry) { throw "Could not locate extracted cello_p10/entry.pyc" }
           New-Item -ItemType Directory -Force -Path "$PWD/project/src" | Out-Null
           Copy-Item -Recurse -Force $entry.Directory.FullName "$PWD/project/src/cello_p10"
@@ -78,9 +71,7 @@ jobs:
           Expand-Archive -Path "$PWD/cello_1_1_patch.zip" -DestinationPath "$PWD/project" -Force
           $versionFile = "$PWD/project/assets/app/version_info.txt"
           $version = Get-Content $versionFile -Raw
-          $version = $version.Replace('filevers=(1, 0, 1, 0)', 'filevers=(1, 1, 0, 0)')
-          $version = $version.Replace('prodvers=(1, 0, 1, 0)', 'prodvers=(1, 1, 0, 0)')
-          $version = $version.Replace("u'1.0.1'", "u'1.1.0'")
+          $version = $version.Replace('filevers=(1, 0, 1, 0)', 'filevers=(1, 1, 0, 0)').Replace('prodvers=(1, 0, 1, 0)', 'prodvers=(1, 1, 0, 0)').Replace("u'1.0.1'", "u'1.1.0'")
           Set-Content -Path $versionFile -Value $version -Encoding UTF8
           @'
           CELLO BIOCHEMICAL CELL SIMULATOR 1.1.0
@@ -116,24 +107,25 @@ jobs:
         run: |
           python -m compileall -q src launcher.py
           python -c "from cello_p10.release import RELEASE_VERSION; assert RELEASE_VERSION == '1.1.0'; import cello_p10.main_window; print('GUI_IMPORT_PASS')"
-          python -c "from cello_p10.simulation import CellSimulation; m=CellSimulation('generic_mammalian'); a=m.snapshot(); m.step(0.2); b=m.snapshot(); assert float(b['simulation_time']) > float(a['simulation_time']); print('SIMULATION_STEP_PASS')"
+          python -c "from cello_p10.simulation import CellSimulation; m=CellSimulation('generic_mammalian'); a=m.snapshot(); m.step(0.2); b=m.snapshot(); assert float(b['time']) > float(a['time']); print('SIMULATION_STEP_PASS')"
           @'
           from pathlib import Path
           import json, zipfile, hashlib
           from cello_p10.experiment import ExperimentRecorder
           from cello_p10.recording import save_recording_bundle
           r=ExperimentRecorder()
-          r.append_snapshot({'simulation_time':0.0,'species':{'atp_c':2.5,'glucose_c':5.0,'pH':7.2,'membrane_potential_mV':-70.0},'fluxes':{'Glycolysis':1.0,'Citric acid cycle':0.5,'ATP synthase':0.8},'viability_percent':100.0})
-          r.append_snapshot({'simulation_time':0.2,'species':{'atp_c':2.4,'glucose_c':4.9,'pH':7.19,'membrane_potential_mV':-69.5},'fluxes':{'Glycolysis':1.1,'Citric acid cycle':0.55,'ATP synthase':0.82},'viability_percent':99.9})
+          r.append_snapshot({'time':0.0,'species':{'atp_c':2.5,'glucose_c':5.0,'pH':7.2,'membrane_potential_mV':-70.0},'fluxes':{'Glycolysis':1.0,'Citric acid cycle':0.5,'ATP synthase':0.8},'viability_percent':100.0})
+          r.append_snapshot({'time':0.2,'species':{'atp_c':2.4,'glucose_c':4.9,'pH':7.19,'membrane_potential_mV':-69.5},'fluxes':{'Glycolysis':1.1,'Citric acid cycle':0.55,'ATP synthase':0.82},'viability_percent':99.9})
           p=Path('recording_gate.zip')
-          save_recording_bundle(p, recorder=r, software_version='1.1.0', parameters={}, entities=[], entity_history=[], environment={}, biosettings={}, latest_snapshot={})
+          save_recording_bundle(p, recorder=r, software_version='1.1.0', parameters={}, entities={}, profile='generic_mammalian', environment={}, biosettings={}, latest_snapshot={})
           with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
               names=set(z.namelist())
               required={'trajectory.csv','recording.json','figures/summary_300dpi.png','figures/summary.pdf','README.txt','manifest.json'}
               assert required <= names
               manifest=json.loads(z.read('manifest.json'))
-              for name,digest in manifest['sha256'].items():
-                  assert hashlib.sha256(z.read(name)).hexdigest()==digest
+              for name,spec in manifest['members'].items():
+                  assert hashlib.sha256(z.read(name)).hexdigest()==spec['sha256']
           print('RECORDING_BUNDLE_PASS')
           '@ | python -
 
@@ -188,13 +180,7 @@ jobs:
             "$hash  $rel"
           }
           $sumLines | Set-Content "$release/SHA256SUMS.txt" -Encoding ASCII
-          $manifest = [ordered]@{
-            software='Cello'
-            version='1.1.0'
-            platform='Windows x64'
-            features=@('Record Simulation','Track Stats live research telemetry overlay')
-            build_utc=(Get-Date).ToUniversalTime().ToString('o')
-          }
+          $manifest = [ordered]@{software='Cello';version='1.1.0';platform='Windows x64';features=@('Record Simulation','Track Stats live research telemetry overlay');build_utc=(Get-Date).ToUniversalTime().ToString('o')}
           $manifest | ConvertTo-Json -Depth 5 | Set-Content "$release/release-manifest.json" -Encoding UTF8
           $artifact = "$env:GITHUB_WORKSPACE/cello_1.1_windows_x64.zip"
           if (Test-Path $artifact) { Remove-Item -Force $artifact }
