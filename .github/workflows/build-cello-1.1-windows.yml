@@ -1,0 +1,218 @@
+name: Build Cello 1.1 Windows x64
+
+on:
+  push:
+    branches:
+      - build/cello-1.1-windows-ci-20260829
+    paths:
+      - 'ci/cello_1_1_patch/**'
+      - '.github/workflows/build-cello-1.1-windows.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout isolated build branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12 x64
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: 'x64'
+          cache: 'pip'
+
+      - name: Install extraction and build tools
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pyinstxtractor-ng "pyinstaller==6.21.0" pytest
+
+      - name: Reconstruct and verify Cello 1.1 source patch
+        shell: pwsh
+        run: |
+          $parts = Get-ChildItem "ci/cello_1_1_patch/lean_*.b64" | Sort-Object Name
+          if ($parts.Count -ne 4) { throw "Expected exactly 4 lean patch chunks; found $($parts.Count)" }
+          $b64 = ($parts | ForEach-Object { (Get-Content $_.FullName -Raw).Trim() }) -join ''
+          [IO.File]::WriteAllBytes("$PWD/cello_1_1_patch.zip", [Convert]::FromBase64String($b64))
+          $sha = (Get-FileHash "$PWD/cello_1_1_patch.zip" -Algorithm SHA256).Hash.ToLower()
+          if ($sha -ne "21053aed4cbf4df12902e02971cbd057cc79bf44fa0ce6bffaf909ae74af64e9") {
+            throw "Cello 1.1 patch checksum mismatch: $sha"
+          }
+          Write-Host "PATCH_SHA256_PASS $sha"
+
+      - name: Download authoritative Cello 1.0.1 Windows baseline
+        shell: pwsh
+        run: |
+          $url = "https://github.com/build33Mercury/Cello/releases/download/v1.0.1/Cello_1.0.1_Portable_Windows_x64.zip"
+          Invoke-WebRequest -Uri $url -OutFile "$PWD/cello_1_0_1.zip"
+          $sha = (Get-FileHash "$PWD/cello_1_0_1.zip" -Algorithm SHA256).Hash.ToLower()
+          if ($sha -ne "9f5bef711a02418ea6b2e15016d4dd065ada45e59848cfbeb2e127ab95ea71d3") {
+            throw "v1.0.1 baseline checksum mismatch: $sha"
+          }
+          Expand-Archive -Path "$PWD/cello_1_0_1.zip" -DestinationPath "$PWD/old" -Force
+          Write-Host "BASELINE_SHA256_PASS $sha"
+
+      - name: Recover frozen Cello package baseline
+        shell: pwsh
+        run: |
+          $exe = (Resolve-Path "$PWD/old/Cello_1.0.1_Portable/Run_Simulator.cello.exe").Path
+          pyinstxtractor-ng "$exe"
+          $entry = Get-ChildItem -Path $PWD -Recurse -Filter "entry.pyc" -File |
+            Where-Object { $_.FullName -match '[\\/]cello_p10[\\/]entry\.pyc$' } |
+            Select-Object -First 1
+          if (-not $entry) { throw "Could not locate extracted cello_p10/entry.pyc" }
+          New-Item -ItemType Directory -Force -Path "$PWD/project/src" | Out-Null
+          Copy-Item -Recurse -Force $entry.Directory.FullName "$PWD/project/src/cello_p10"
+          Copy-Item -Recurse -Force "$PWD/old/Cello_1.0.1_Portable/_cello_runtime/assets" "$PWD/project/assets"
+          Copy-Item -Recurse -Force "$PWD/old/Cello_1.0.1_Portable/_cello_runtime/docs" "$PWD/project/docs"
+          Copy-Item -Recurse -Force "$PWD/old/Cello_1.0.1_Portable/_cello_runtime/models" "$PWD/project/models"
+          Copy-Item -Force "$PWD/old/Cello_1.0.1_Portable/SCIENTIFIC_LIMITATIONS.txt" "$PWD/project/SCIENTIFIC_LIMITATIONS.txt"
+          Write-Host "RECOVERED_PACKAGE $($entry.Directory.FullName)"
+
+      - name: Apply audited 1.1 source patch and release metadata
+        shell: pwsh
+        run: |
+          Expand-Archive -Path "$PWD/cello_1_1_patch.zip" -DestinationPath "$PWD/project" -Force
+          $versionFile = "$PWD/project/assets/app/version_info.txt"
+          $version = Get-Content $versionFile -Raw
+          $version = $version.Replace('filevers=(1, 0, 1, 0)', 'filevers=(1, 1, 0, 0)')
+          $version = $version.Replace('prodvers=(1, 0, 1, 0)', 'prodvers=(1, 1, 0, 0)')
+          $version = $version.Replace("u'1.0.1'", "u'1.1.0'")
+          Set-Content -Path $versionFile -Value $version -Encoding UTF8
+          @'
+          CELLO BIOCHEMICAL CELL SIMULATOR 1.1.0
+
+          New in 1.1.0
+          - Record Simulation: saves trajectory.csv, provenance metadata, publication-quality summary figures and a SHA-256 manifest in one recording ZIP.
+          - Track Stats: live research telemetry overlay over the 3D cell viewport with ATP, glucose, pathway fluxes, viability, pH and membrane potential.
+
+          Run Run_Simulator.cello.exe from the extracted portable folder.
+          Cello is a research/development simulator and is not for clinical or diagnostic use.
+          '@ | Set-Content "$PWD/project/README_FIRST.txt" -Encoding UTF8
+          @'
+          CELLO 1.1.0 RELEASE NOTES
+
+          Added simulation recording with reproducibility metadata and self-verifying recording bundles.
+          Added live Track Stats research-figure overlay linked directly to worker simulation snapshots.
+          Recording state is independent of the normal rolling trajectory history.
+          Active recordings are recovered to Downloads if the application closes before manual save.
+          '@ | Set-Content "$PWD/project/RELEASE_NOTES_1.1.txt" -Encoding UTF8
+
+      - name: Install Cello scientific runtime dependencies
+        shell: pwsh
+        working-directory: project
+        run: |
+          python -m pip install "numpy>=1.26,<3" "scipy>=1.13,<2" "PySide6>=6.8,<7" "panda3d>=1.10,<2" "pyzmq>=26,<28" "matplotlib>=3.9,<4" "pillow>=10,<13" "rdkit>=2024.3" "python-libsbml>=5.20,<6" "python-libsedml>=2,<3" "libroadrunner>=2.8,<3" msgpack
+
+      - name: Source, import, simulation and recording gates
+        shell: pwsh
+        working-directory: project
+        env:
+          QT_QPA_PLATFORM: offscreen
+          PYTHONPATH: src
+        run: |
+          python -m compileall -q src launcher.py
+          python -c "from cello_p10.release import RELEASE_VERSION; assert RELEASE_VERSION == '1.1.0'; import cello_p10.main_window; print('GUI_IMPORT_PASS')"
+          python -c "from cello_p10.simulation import CellSimulation; m=CellSimulation('generic_mammalian'); a=m.snapshot(); m.step(0.2); b=m.snapshot(); assert float(b['simulation_time']) > float(a['simulation_time']); print('SIMULATION_STEP_PASS')"
+          @'
+          from pathlib import Path
+          import json, zipfile, hashlib
+          from cello_p10.experiment import ExperimentRecorder
+          from cello_p10.recording import save_recording_bundle
+          r=ExperimentRecorder()
+          r.append_snapshot({'simulation_time':0.0,'species':{'atp_c':2.5,'glucose_c':5.0,'pH':7.2,'membrane_potential_mV':-70.0},'fluxes':{'Glycolysis':1.0,'Citric acid cycle':0.5,'ATP synthase':0.8},'viability_percent':100.0})
+          r.append_snapshot({'simulation_time':0.2,'species':{'atp_c':2.4,'glucose_c':4.9,'pH':7.19,'membrane_potential_mV':-69.5},'fluxes':{'Glycolysis':1.1,'Citric acid cycle':0.55,'ATP synthase':0.82},'viability_percent':99.9})
+          p=Path('recording_gate.zip')
+          save_recording_bundle(p, recorder=r, software_version='1.1.0', parameters={}, entities=[], entity_history=[], environment={}, biosettings={}, latest_snapshot={})
+          with zipfile.ZipFile(p) as z:
+              names=set(z.namelist())
+              required={'trajectory.csv','recording.json','figures/summary_300dpi.png','figures/summary.pdf','README.txt','manifest.json'}
+              assert required <= names
+              manifest=json.loads(z.read('manifest.json'))
+              for name,digest in manifest['sha256'].items():
+                  assert hashlib.sha256(z.read(name)).hexdigest()==digest
+          print('RECORDING_BUNDLE_PASS')
+          '@ | python -
+
+      - name: Build fresh Cello 1.1 Windows x64 executable
+        shell: pwsh
+        working-directory: project
+        run: |
+          python -m PyInstaller --noconfirm --clean --onedir --windowed --contents-directory _cello_runtime `
+            --workpath build --distpath dist --specpath . --paths src `
+            --name Run_Simulator.cello --icon assets/app/cello.ico --version-file assets/app/version_info.txt `
+            --add-data "assets;assets" --add-data "docs;docs" --add-data "models;models" `
+            --collect-all panda3d `
+            --collect-submodules direct.showbase --collect-submodules direct.task --collect-submodules direct.gui --collect-submodules direct.interval --collect-submodules direct.directnotify --collect-submodules direct.stdpy `
+            --collect-all zmq --collect-all libsbml --collect-all libsedml --collect-all roadrunner `
+            --collect-binaries rdkit --collect-data rdkit --collect-submodules rdkit.Chem --collect-submodules cello_p10 `
+            --hidden-import msgpack --hidden-import matplotlib.backends.backend_qtagg --hidden-import matplotlib.backends.backend_agg `
+            --hidden-import scipy.optimize --hidden-import scipy.stats `
+            --exclude-module PyQt5 --exclude-module PyQt6 --exclude-module PySide2 --exclude-module tkinter --exclude-module rdkit.sping --exclude-module matplotlib.tests `
+            launcher.py
+
+      - name: Audit runtime and smoke-launch executable
+        shell: pwsh
+        working-directory: project
+        run: |
+          $pkg = "$PWD/dist/Run_Simulator.cello"
+          $exe = "$pkg/Run_Simulator.cello.exe"
+          if (-not (Test-Path $exe)) { throw "Built executable missing" }
+          $qtDlls = @(Get-ChildItem $pkg -Recurse -Filter Qt6Core.dll -File)
+          $qtExts = @(Get-ChildItem $pkg -Recurse -Filter 'QtCore*.pyd' -File)
+          if ($qtDlls.Count -ne 1) { throw "Expected 1 Qt6Core.dll, found $($qtDlls.Count)" }
+          if ($qtExts.Count -ne 1) { throw "Expected 1 QtCore extension, found $($qtExts.Count)" }
+          $proc = Start-Process -FilePath $exe -PassThru
+          Start-Sleep -Seconds 12
+          if ($proc.HasExited) { throw "GUI smoke launch exited early with code $($proc.ExitCode)" }
+          Stop-Process -Id $proc.Id -Force
+          Write-Host "WINDOWS_GUI_SMOKE_PASS"
+
+      - name: Assemble GitHub-ready portable package
+        shell: pwsh
+        working-directory: project
+        run: |
+          $release = "$PWD/Cello_1.1_Portable"
+          if (Test-Path $release) { Remove-Item -Recurse -Force $release }
+          Copy-Item -Recurse -Force "$PWD/dist/Run_Simulator.cello" $release
+          Copy-Item -Force "$PWD/README_FIRST.txt" "$release/README_FIRST.txt"
+          Copy-Item -Force "$PWD/RELEASE_NOTES_1.1.txt" "$release/RELEASE_NOTES_1.1.txt"
+          Copy-Item -Force "$PWD/SCIENTIFIC_LIMITATIONS.txt" "$release/SCIENTIFIC_LIMITATIONS.txt"
+          $files = Get-ChildItem $release -Recurse -File | Sort-Object FullName
+          $sumLines = foreach ($f in $files) {
+            $rel = $f.FullName.Substring($release.Length + 1).Replace('\','/')
+            $hash = (Get-FileHash $f.FullName -Algorithm SHA256).Hash.ToLower()
+            "$hash  $rel"
+          }
+          $sumLines | Set-Content "$release/SHA256SUMS.txt" -Encoding ASCII
+          $manifest = [ordered]@{
+            software='Cello'
+            version='1.1.0'
+            platform='Windows x64'
+            features=@('Record Simulation','Track Stats live research telemetry overlay')
+            build_utc=(Get-Date).ToUniversalTime().ToString('o')
+          }
+          $manifest | ConvertTo-Json -Depth 5 | Set-Content "$release/release-manifest.json" -Encoding UTF8
+          $artifact = "$env:GITHUB_WORKSPACE/cello_1.1_windows_x64.zip"
+          if (Test-Path $artifact) { Remove-Item -Force $artifact }
+          Compress-Archive -Path $release -DestinationPath $artifact -CompressionLevel Optimal
+          python -c "import zipfile; p=r'$artifact'; z=zipfile.ZipFile(p); assert z.testzip() is None; n=set(z.namelist()); assert any(x.endswith('/Run_Simulator.cello.exe') for x in n); assert any('/_cello_runtime/' in x for x in n); print('FINAL_ZIP_CRC_PASS', len(n))"
+          $hash=(Get-FileHash $artifact -Algorithm SHA256).Hash.ToLower()
+          $size=(Get-Item $artifact).Length
+          "SHA256=$hash" | Tee-Object -FilePath "$env:GITHUB_WORKSPACE/BUILD_RESULT.txt"
+          "BYTES=$size" | Tee-Object -Append -FilePath "$env:GITHUB_WORKSPACE/BUILD_RESULT.txt"
+          Write-Host "FINAL_ARTIFACT_SHA256 $hash"
+          Write-Host "FINAL_ARTIFACT_BYTES $size"
+
+      - name: Upload verified Windows x64 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cello_1.1_windows_x64
+          path: |
+            cello_1.1_windows_x64.zip
+            BUILD_RESULT.txt
+          if-no-files-found: error
+          retention-days: 7
