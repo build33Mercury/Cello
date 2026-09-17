@@ -1,78 +1,72 @@
 # Release process
 
-## 1. Update release metadata
+## 1. Update metadata
 
-Before publishing a Cello version, update:
+Update:
 
 - `VERSION`
-- `README.md`
 - `CHANGELOG.md`
+- `README.md`
 - `INSTALL.md`
 - `CITATION.cff`
-- `versions/README.md`
 - `versions/v<version>/`
 
-## 2. Build and validate
+## 2. Build
 
-Produce a professional portable Windows x64 package containing the exact launcher:
-
-```text
-Run_Simulator.cello.exe
-```
-
-The standard release filename is:
+Produce one Windows x64 executable named:
 
 ```text
-Cello_<version>_Windows_x64_Portable.zip
+Cello.exe
 ```
 
-At minimum, validate source compilation, automated tests, package integrity, launcher architecture, bundled runtime presence, release metadata, and checksums. A final native Windows GUI smoke launch should be completed on a Windows x64 host.
+The release executable must contain the Cello icon resources and a checksum-protected embedded application payload. The payload must contain the intended version's current source/runtime/assets and must not depend on a companion folder beside the executable.
 
-## 3. Generate checksums
+## 3. Validate
+
+Required build-time checks:
+
+- PE32+ x86-64 GUI structure
+- Cello icon resource directory present
+- embedded payload marker present
+- embedded payload SHA-256 matches the footer
+- embedded payload ZIP CRC passes
+- bundled `python312.dll` present
+- `src/cello_p10/entry.py` present
+- intended `VERSION` and release metadata present
+- Python source compilation passes
+- version-specific regression/smoke checks pass
+
+Required host-level check before declaring a release verified:
+
+- launch `Cello.exe` on a clean supported Windows x64 host
+- confirm main UI reaches ready state
+- confirm simulation worker starts
+- exercise the release's headline feature
+- close and relaunch from the cached runtime
+- inspect `%LOCALAPPDATA%\Cello\logs` for unexpected errors
+
+## 4. Generate checksum
 
 ```powershell
-Get-FileHash .\Cello_<version>_Windows_x64_Portable.zip -Algorithm SHA256
+Get-FileHash .\Cello.exe -Algorithm SHA256
 ```
 
-Record release hashes in:
+Record the exact hash in the version metadata and GitHub Release notes.
+
+## 5. Commit and tag
+
+Commit metadata changes, tag `v<version>`, and push the tag only after the intended release state is frozen.
+
+## 6. Publish GitHub Release
+
+Create the release for tag `v<version>` and attach exactly the intended Windows asset:
 
 ```text
-versions/v<version>/SHA256SUMS.txt
+Cello.exe
 ```
 
-## 4. Commit and tag
+Publish the SHA-256 in the release notes.
 
-```bash
-git add .
-git commit -m "Release Cello v<version>"
-git tag -a v<version> -m "Cello v<version>"
-git push origin main
-git push origin v<version>
-```
+## 7. Post-publication verification
 
-## 5. Create the GitHub Release
-
-1. Open **Releases**.
-2. Draft a new release.
-3. Select or create tag `v<version>`.
-4. Use title `Cello v<version> - Windows x64 Portable`.
-5. Add the prepared release notes.
-6. Attach the portable ZIP and checksum file.
-7. Publish as the current release when validation is complete.
-
-## 6. Post-publication verification
-
-- Download the release asset from GitHub.
-- Recompute SHA-256 and compare with the repository metadata.
-- Extract the full package.
-- Confirm `Run_Simulator.cello.exe` launches successfully on Windows x64.
-- Confirm the new application icon and UI branding are present.
-- Confirm the README and install instructions point to the current version.
-- Confirm the release is marked latest when intended.
-
-## v1.1.0 prepared checksums
-
-```text
-ZIP:      b636317b71a53dcec70cb7a127146a5f16c35ec6b4d8aad58b961afe236ba175
-Launcher: f4093b1be2d2c85e935b5447dab8a49b0b8d7c33211715a7f388b21236a85339
-```
+Download `Cello.exe` from the published GitHub Release, recompute SHA-256, and perform the native Windows smoke launch on the downloaded bytes rather than only on a local pre-upload copy.

@@ -1,32 +1,14 @@
 {
-  "product": "Cello Biochemical Cell Simulator",
   "version": "1.1.0",
-  "release_date": "2026-09-17",
-  "channel": "stable",
   "platform": "Windows x64",
-  "distribution": "portable",
-  "asset": "Cello_1.1.0_Windows_x64_Portable.zip",
-  "asset_sha256": "b636317b71a53dcec70cb7a127146a5f16c35ec6b4d8aad58b961afe236ba175",
-  "launcher": "Run_Simulator.cello.exe",
-  "launcher_sha256": "f4093b1be2d2c85e935b5447dab8a49b0b8d7c33211715a7f388b21236a85339",
-  "application_icon": "assets/app/cello.ico",
-  "scientific_status": "research beta; simulated outputs; not clinical or patient-specific",
-  "validation": {
-    "source_tests_passed": 68,
-    "source_tests_failed": 0,
-    "windows_launcher_format": "PE32+ x86-64 GUI",
-    "icon_resource_embedded": true,
-    "worker_command_line_forwarding": true,
-    "native_windows_gui_smoke_test": "pending host-level verification"
-  },
-  "features": [
-    "Cello blue UI and application branding",
-    "Live Research Telemetry",
-    "Selectable state and pathway plots",
-    "Pause Plot",
-    "Telemetry event markers",
-    "Simulation Recording",
-    "Trajectory/event/provenance export",
-    "PNG/PDF summary figures"
-  ]
+  "asset": "Cello.exe",
+  "packaging": "single-file embedded payload",
+  "sha256": "cc392bd194e538db8cd26645f018d918f80ed1a5ef46155b09202dba1c035cd3",
+  "build_validation": {
+    "pe32_plus_x86_64": "PASS",
+    "icon_resources": "PASS",
+    "embedded_payload_sha256": "PASS",
+    "embedded_payload_zip_crc": "PASS",
+    "native_windows_gui_smoke": "PENDING"
+  }
 }

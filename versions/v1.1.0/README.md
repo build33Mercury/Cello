@@ -1,49 +1,17 @@
 # Cello v1.1.0
 
-Release package prepared on 2026-09-17.
+Release theme: live research telemetry, simulation recording, and interface/branding refresh.
 
-## Distribution
+## Rebuilt Windows asset
 
-- Platform: Windows x64
-- Package: portable ZIP
-- Asset: `Cello_1.1.0_Windows_x64_Portable.zip`
-- Launcher: `Run_Simulator.cello.exe`
-- Separate Python installation: not required
+`Cello.exe`
 
-## SHA-256
-
-Portable ZIP:
+SHA-256:
 
 ```text
-b636317b71a53dcec70cb7a127146a5f16c35ec6b4d8aad58b961afe236ba175
+cc392bd194e538db8cd26645f018d918f80ed1a5ef46155b09202dba1c035cd3
 ```
 
-Launcher inside the portable package:
+The original multi-file v1.1 startup path was replaced by the single-file embedded-payload bootstrap after the older launcher proved unreliable. The rebuild preserves the v1.1 application payload while changing startup/packaging.
 
-```text
-f4093b1be2d2c85e935b5447dab8a49b0b8d7c33211715a7f388b21236a85339
-```
-
-## Highlights
-
-- New blue Cello application identity
-- Refreshed light and dark UI
-- Live Research Telemetry
-- Selectable state and pathway plots
-- Pause Plot
-- Live ATP, glucose, viability, and event indicators
-- Intervention and recording event markers
-- Structured simulation recording
-- Trajectory, event, provenance, figure, and checksum exports
-
-## Validation
-
-The prepared package reports 68 source-level automated checks passing with 0 failures. The Windows launcher was structurally verified as a PE32+ x86-64 GUI executable with the Cello icon embedded, expected runtime files present, and worker command-line forwarding preserved.
-
-A native Windows GUI smoke launch remains a release-host verification step.
-
-## Scientific status
-
-Research beta. Cello outputs are model-generated simulations and are not clinical outputs, patient-specific predictions, experimental measurements, or biological validation by themselves.
-
-See [RELEASE_NOTES.md](RELEASE_NOTES.md), [SHA256SUMS.txt](SHA256SUMS.txt), and [release-manifest.json](release-manifest.json).
+Build-time structure and payload-integrity checks pass. Native Windows GUI smoke testing is still required before host-level verification.

@@ -2,113 +2,111 @@
 
 All notable changes to Cello are documented here.
 
-The project follows semantic versioning and uses GitHub Releases for downloadable compiled builds.
+The project follows semantic versioning and uses GitHub Releases for downloadable Windows builds.
+
+## [1.6.0] — 2026-09-18
+
+### Added
+
+- Population Mode for independent model-generated virtual-cell ensembles
+- Reproducible population seeds
+- Configurable parameter heterogeneity
+- Population sizes from 2 to 500 virtual cells
+- Median and interquartile-range population trajectories
+- Endpoint mean, SD, median, quartiles, minimum, and maximum
+- Model-state fractions for healthy, stressed, injured, irreversibly injured, and necrotic virtual cells
+- Per-cell endpoint inspection
+- CSV and JSON population export
+- Cancellable background population computation
+
+### Packaging
+
+- Replaced the multi-file portable launcher layout with one Windows x64 release asset named `Cello.exe`
+- Added an embedded-payload bootstrap that verifies the payload SHA-256 before extraction
+- Added versioned runtime caching under `%LOCALAPPDATA%\Cello\runtime`
+- Added bootstrap/runtime diagnostics under `%LOCALAPPDATA%\Cello\logs`
+- Preserved Cello icon resources in the rebuilt executable
+
+### Scientific guardrails
+
+- Population outputs are model-generated virtual-cell replicates, not biological replicates
+- Heterogeneity is an imposed model assumption with a reproducible seed
+- Core `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.5.0
+
+### Validation
+
+- Python source compilation: PASS
+- Population-core simulation smoke test: PASS
+- Embedded payload SHA-256 verification: PASS
+- Embedded payload ZIP CRC: PASS
+- Windows PE32+ x86-64 structure: PASS
+- Cello icon resource directory: PASS
+- Native Windows GUI smoke launch: still required before host-level release verification
+
+## [1.5.0] — 2026-09-17
+
+### Added
+
+- Quantitative Analysis workspace
+- Time-series, distribution, scatter, correlation-heatmap, and run-comparison views
+- Descriptive statistics, start/end change, fold change, percent change, trapezoidal AUC
+- Peak/trough detection and late-window stability diagnostics
+- CSV/JSON summary export and PNG/PDF/SVG figure export
+
+## [1.4.0] — 2026-09-17
+
+### Added
+
+- Perturbation Lab
+- Target-first perturbation design
+- Chemical perturbation and enzyme-activity scaling workflows
+- Control-state capture and restoration
+- Multi-intervention protocols
+- Live effect manifests
+- JSON and CSV protocol export
+
+## [1.3.0] — 2026-09-17
+
+### Added
+
+- Dynamic Pathway Explorer
+- Live pathway flux history
+- Interactive pathway maps and reaction inspection
+- Model-state, inhibition, evidence, and compartment cues
+- JSON and CSV pathway snapshot export
+
+## [1.2.0] — 2026-09-17
+
+### Added
+
+- Experiment Workspace
+- `.cello-project` project archives with SHA-256 member verification
+- Project and experiment notes
+- Experiment duplication/branching
+- Multiple runs per experiment
+- Multi-run trajectory comparison and project-summary export
 
 ## [1.1.0] — 2026-09-17
 
 ### Added
 
-#### Live Research Telemetry
+- New blue Cello application identity
+- Configurable live research telemetry
+- Simulation recording with trajectory, event, provenance, figure, and checksum output
+- Event markers and improved recording-state feedback
+- Refreshed light and dark interface
 
-- Added selectable live state-variable telemetry
-- Added selectable live pathway-flux telemetry
-- Added `Pause Plot` to freeze plot rendering without pausing the simulation
-- Added ATP, glucose, viability, and event-count telemetry chips
-- Added intervention add/update/remove event markers
-- Added recording start/stop event markers
-- Added bounded telemetry history and redraw throttling for responsiveness
+### Rebuilt distribution
 
-#### Simulation Recording
-
-- Added dedicated simulation recording independent of ordinary rolling UI history
-- Added `trajectory.csv` export
-- Added `events.csv` export
-- Added provenance-rich `recording.json`
-- Added PNG and PDF summary figures
-- Added SHA-256 member manifests
-- Added recording event count and observed median sample interval metadata
-- Added recovery export behavior for interrupted active recordings
-
-#### Branding and interface
-
-- Added the new blue Cello application icon and in-app brand mark
-- Refreshed light and dark themes around the Cello visual identity
-- Improved application header, startup window, cards, menus, controls, status indicators, active states, hover states, and spacing
-- Added clearer software/model version presentation
-
-### Changed
-
-- Updated the application and release metadata to 1.1.0
-- Improved recording-control state feedback
-- Improved Windows launcher behavior for the main application and simulation-worker command-line forwarding
-- Preserved the existing biochemical equations and core cell-model behavior during the interface/telemetry update
-
-### Validation
-
-The current v1.1.0 portable package completed:
-
-- Python source compilation checks
-- 68 automated source-level regression/scientific tests with 0 failures
-- recording and export checks
-- package ZIP integrity checks
-- release manifest/checksum generation
-- Windows x64 PE launcher structure verification
-- embedded application-icon verification
-- bundled Python runtime presence verification
-- simulation-worker command-line forwarding verification
-
-Native Windows GUI smoke testing remains a host-level check to perform on Windows after downloading the final GitHub release asset.
-
-### Distribution
-
-- Release asset: `Cello_1.1.0_Windows_x64_Portable.zip`
-- Extracted application directory: `Cello_1.1.0_Windows_x64_Portable`
-- Launcher: `Run_Simulator.cello.exe`
-- Platform: Windows x64
-- Package type: portable ZIP
-- Separate Python installation: not required
-- ZIP SHA-256: `b636317b71a53dcec70cb7a127146a5f16c35ec6b4d8aad58b961afe236ba175`
-
-### Scientific status
-
-- Research beta
-- Model-generated outputs only
-- Not clinically validated
-- Not a patient-specific predictor
-- Not a validated digital twin
-- Not a diagnostic or treatment-selection system
-- Biological claims require study-specific validation
+The v1.1.0–v1.5.0 Windows builds were rebuilt into the same single-file `Cello.exe` bootstrap architecture used by v1.6.0 after the earlier multi-file startup path proved unreliable. These rebuilds are structurally and payload-integrity validated; native Windows GUI smoke testing remains the final host-level check.
 
 ## [1.0.1] — 2026-08-06
 
 ### Added
 
-- Official portable Windows x64 distribution
-- Single user-facing launcher: `Run_Simulator.cello.exe`
+- First formally published portable Windows x64 release
 - Bundled private Python and scientific runtime
-- Desktop shortcut creation after first successful launch
-- Cello application and taskbar icon integration
-- Versioned warm-start cache
-
-### Improved
-
-- Startup flow uses one persistent loading window
-- Main simulator window appears after viewport, worker, and cell-state readiness
-- Warm-start readiness gate reduced from three snapshots to two
-- Responsive interface behavior from 1024×680 upward
-- Dark mode, contrast icons, panel visibility controls, explicit pH readouts, research tools, and scientific audits retained in the portable build
-
-### Distribution
-
-- Release asset: `Cello_1.0.1_Portable_Windows_x64.zip`
-- Platform: Windows x64
-- Package type: portable ZIP
-
-### Scientific status
-
-- Research beta
-- Not clinically validated
-- Not a patient-specific predictor or digital twin
+- Desktop shortcut and Cello application integration
 
 ## Earlier development builds
 

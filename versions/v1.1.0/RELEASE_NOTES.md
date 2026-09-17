@@ -1,48 +1,13 @@
-# Cello v1.1.0 Release Notes
+# Cello v1.1.0 release notes
 
-## Live Research Telemetry
+The v1.1 application payload adds live research telemetry, simulation recording, event markers, and the refreshed Cello interface/branding.
 
-Cello v1.1 introduces a substantially expanded `Track Stats` system. Users can select model state variables and pathway outputs for live plotting, pause plot rendering without pausing the simulation, clear visible history without resetting the model, and inspect intervention/recording event markers.
+The Windows distribution was rebuilt on 2026-09-18 as one file named `Cello.exe` after the earlier multi-file launcher path proved unreliable.
 
-Model-state options include ATP, intracellular glucose, mitochondrial oxygen, NADH, ROS proxy, intracellular pH, membrane potential, and calcium where represented by the active model. Pathway outputs include glycolysis, TCA cycle, ATP synthase, beta-oxidation, pentose phosphate pathway, glutaminase, and serine synthesis.
-
-## Simulation Recording
-
-`Record Simulation` now produces structured experiment bundles containing trajectory data, timestamped events, provenance metadata, summary figures, and SHA-256 integrity information.
-
-Typical recording contents include:
+SHA-256:
 
 ```text
-trajectory.csv
-events.csv
-recording.json
-figures/
-manifest.json
-README.txt
+cc392bd194e538db8cd26645f018d918f80ed1a5ef46155b09202dba1c035cd3
 ```
 
-## Interface Refresh
-
-- New blue Cello application icon and in-app brand mark
-- Reworked light and dark themes
-- Cleaner header, cards, menus, controls, active states, hover states, status indicators, and spacing
-- Unified startup and simulator visual identity
-- Clearer recording and telemetry state feedback
-
-## Windows Packaging
-
-- Portable Windows x64 package
-- Required launcher: `Run_Simulator.cello.exe`
-- Bundled private Python 3.12 scientific runtime
-- No separate Python installation required
-- Worker command-line forwarding preserved in the launcher
-
-## Validation
-
-The prepared v1.1.0 package completed 68 automated source-level checks with 0 failures, ZIP integrity checks, release-manifest/checksum generation, Windows x64 PE launcher structure verification, embedded icon verification, runtime presence verification, and worker command-line forwarding verification.
-
-A final native Windows GUI smoke launch remains a host-level release check.
-
-## Scientific boundary
-
-Cello v1.1.0 remains research-beta software. Telemetry and recordings are outputs of the implemented model, not experimental measurements, clinical outputs, patient-specific predictions, or independent evidence of biological accuracy. Appropriate calibration, numerical verification, sensitivity/uncertainty analysis, and external validation are required for scientific claims.
+Build-time PE, resource, embedded-payload checksum, and ZIP-CRC checks pass. Native Windows GUI smoke testing remains required before host-level verification.

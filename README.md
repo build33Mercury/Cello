@@ -1,106 +1,63 @@
-# Cello v1.1.0
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+# Cello v1.6.0
+
+![Version](https://img.shields.io/badge/version-1.6.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
-![Distribution](https://img.shields.io/badge/distribution-portable-success)
+![Distribution](https://img.shields.io/badge/distribution-single--file-success)
 
 **Cello is an interactive biochemical cell simulator and research-oriented visualization platform for Windows x64.**
 
-Version 1.1.0 adds a redesigned Cello interface, the new blue Cello identity, live research telemetry, configurable live plots, event markers, and structured simulation recording while preserving the existing biochemical model and 3D simulator.
+Version 1.6.0 adds Population Mode for reproducible virtual-cell ensembles while retaining the Experiment Workspace, Dynamic Pathway Explorer, Perturbation Lab, Quantitative Analysis, simulation recording, and live telemetry introduced across v1.1–v1.5.
 
 ## Windows release
 
-The official v1.1.0 portable package is:
+The Windows release asset is a single file:
 
-`Cello_1.1.0_Windows_x64_Portable.zip`
+`Cello.exe`
 
-After downloading and extracting the complete ZIP, launch:
+No ZIP extraction and no separate Python installation are required. Double-click `Cello.exe` to launch.
 
-`Run_Simulator.cello.exe`
+The executable contains Cello's private application payload and verifies it before preparing a versioned runtime under `%LOCALAPPDATA%\Cello\runtime`. Startup diagnostics are written under `%LOCALAPPDATA%\Cello\logs`.
 
-No separate Python installation is required. Keep `_cello_runtime`, `src`, `assets`, `docs`, and `models` beside the launcher.
+## Current capabilities
 
-> GitHub's automatically generated source-code archives are not the portable Windows application. Use the ZIP attached to the v1.1.0 GitHub Release.
+- interactive 3D biochemical cell visualization
+- deterministic biochemical simulation and model-state inspection
+- simulation recording and Track Stats live telemetry
+- Experiment Workspace with projects, branches, runs, notes, conditions, and comparisons
+- Dynamic Pathway Explorer
+- Perturbation Lab
+- Quantitative Analysis with descriptive statistics and publication-oriented export
+- Population Mode with reproducible model-generated virtual-cell ensembles
 
-## What is new in v1.1.0
+## Population Mode · v1.6
 
-### Interface and branding
+Population Mode supports:
 
-- New blue Cello application icon and in-app brand mark
-- Refreshed light and dark themes
-- Cleaner header, cards, menus, controls, status indicators, hover states, and spacing
-- Unified startup-window and simulator branding
-- Clear recording and telemetry active states
+- 2–500 independent virtual-cell model replicates
+- reproducible population seeds
+- configurable model-parameter heterogeneity
+- ATP, glucose, ROS, pH, damage, oxygen, membrane-potential, and pathway-flux metrics
+- median and interquartile-range trajectories
+- endpoint mean, SD, median, quartiles, minimum, and maximum
+- model-state fractions for healthy, stressed, injured, irreversibly injured, and necrotic virtual cells
+- per-cell endpoint export to CSV
+- structured JSON population export
+- cancellable background population computation
 
-### Live Research Telemetry
-
-`Track Stats` opens a live overlay over the simulator. Users can select real state variables and pathway outputs emitted by the active Cello model.
-
-Available model-state readouts include, where represented by the active model:
-
-- ATP
-- intracellular glucose
-- mitochondrial oxygen
-- NADH
-- ROS proxy
-- intracellular pH
-- membrane potential
-- calcium
-
-Available pathway readouts include:
-
-- glycolysis
-- TCA cycle
-- ATP synthase
-- beta-oxidation
-- pentose phosphate pathway
-- glutaminase
-- serine synthesis
-
-Additional v1.1 telemetry features include ATP, glucose, viability, and event-count chips; pausing plot rendering without pausing the simulation; clearing the displayed history without resetting the model; and intervention/recording event markers.
-
-### Simulation Recording
-
-`Record Simulation` creates a structured experiment bundle containing:
-
-```text
-trajectory.csv
-events.csv
-recording.json
-figures/
-manifest.json
-README.txt
-```
-
-Recording packages preserve model-generated trajectories, intervention history, environment and profile context, software/model versions, sampling metadata, summary figures, and SHA-256 integrity information.
+Population outputs are simulated virtual-cell replicates. They are not biological replicates, patient observations, or experimental measurements.
 
 ## Scientific scope
 
-Cello is research-beta software. Its outputs are simulations generated from the equations, parameters, assumptions, and abstractions implemented in the model. They are not experimental measurements, clinical outputs, patient-specific predictions, or evidence that a biological mechanism is accurate by themselves.
+Cello is research-beta software. Its outputs are generated from the equations, parameters, assumptions, and abstractions implemented in the model. They are not clinical outputs, patient-specific predictions, a validated digital twin, or evidence that a biological mechanism is correct by themselves.
 
-Study-specific scientific use requires appropriate calibration, numerical verification, sensitivity and uncertainty analysis, held-out or external validation, and independent interpretation.
+Study-specific use requires appropriate calibration, numerical verification, sensitivity and uncertainty analysis, external or held-out validation where applicable, and independent scientific interpretation.
 
-## Integrity
+## Release validation
 
-Official v1.1.0 Windows ZIP SHA-256:
+The rebuilt single-file Windows executables are structurally validated as PE32+ x86-64 GUI applications, contain the Cello icon resources, contain checksum-verified embedded payloads, and passed payload ZIP integrity checks. The v1.6 source compiles successfully and its population-core simulation smoke test passes. Core `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.5.0.
 
-```text
-b636317b71a53dcec70cb7a127146a5f16c35ec6b4d8aad58b961afe236ba175
-```
-
-`Run_Simulator.cello.exe` SHA-256:
-
-```text
-f4093b1be2d2c85e935b5447dab8a49b0b8d7c33211715a7f388b21236a85339
-```
-
-See [INSTALL.md](INSTALL.md) for installation and checksum verification.
-
-## Validation status
-
-The v1.1.0 package has passed source-level compilation and automated regression/scientific checks used for this build, with 68 tests passing and 0 failing. The packaged launcher is structurally verified as a Windows x64 PE GUI executable with the Cello icon embedded and the expected bundled Python runtime present.
-
-Native Windows GUI smoke testing is a separate host-level check and should be performed on Windows after downloading the final release asset.
+A native Windows GUI smoke launch remains a host-level validation step and should be performed on Windows before a build is declared release-verified.
 
 ## Version history
 
