@@ -4,7 +4,7 @@
 
 | Item | Value |
 |---|---|
-| Version | 1.0.1 |
+| Version | 1.1.0 |
 | Operating system | Windows 10 or Windows 11, 64-bit |
 | Package type | Portable ZIP |
 | Separate Python required | No |
@@ -13,80 +13,74 @@
 ## Standard installation
 
 1. Open the repository's **Releases** page.
-2. Select **Cello v1.0.1**.
-3. Download `Cello_1.0.1_Portable_Windows_x64.zip` from the release assets.
-4. Right-click the ZIP and select **Extract All**.
-5. Open the extracted `Cello_1.0.1_Portable` folder.
+2. Select **Cello v1.1.0**.
+3. Download `Cello_1.1.0_Windows_x64_Portable.zip` from the release assets.
+4. Extract the complete ZIP to a normal folder.
+5. Open the extracted `Cello_1.1.0_Windows_x64_Portable` directory.
 6. Double-click `Run_Simulator.cello.exe`.
 
 Windows may hide the final `.exe` extension, so the launcher can appear as `Run_Simulator.cello`.
 
 ## Important folder rule
 
-Do not move the executable away from `_cello_runtime`.
-
-The folder must remain structured like this:
+Do not move the launcher away from the rest of the portable package. Keep the application directory intact:
 
 ```text
-Cello_1.0.1_Portable/
+Cello_1.1.0_Windows_x64_Portable/
 ├── Run_Simulator.cello.exe
 ├── _cello_runtime/
-├── README_FIRST.txt
-├── RELEASE_NOTES_1.0.0.txt
+├── src/
+├── assets/
+├── docs/
+├── models/
+├── README.md
+├── CHANGELOG.md
+├── RELEASE_NOTES_1.1.txt
 └── SCIENTIFIC_LIMITATIONS.txt
 ```
 
-The private runtime contains Cello's Python and scientific dependencies. No system-wide Python installation is needed.
+The private runtime contains Cello's bundled Python and scientific dependencies. No system-wide Python installation is needed.
 
 ## First launch
 
-The first launch performs complete initialization of:
-
-- The biochemical model
-- The 3D viewport
-- The simulation worker
-- The initial cell state
-- The versioned warm-start cache
-
-A loading window remains visible until the simulator is ready. After a successful first launch, Cello creates a desktop shortcut using the cell icon.
-
-## Later launches
-
-Later launches can use the warm-start cache. Starting Cello while it is already running activates the existing window rather than opening a second simulator and worker process.
+The first launch initializes the biochemical model, 3D viewport, simulation worker, initial cell state, interface, and local runtime resources.
 
 ## Verify the download
 
-The official SHA-256 checksum is:
+Official v1.1.0 Windows ZIP SHA-256:
 
 ```text
-9f5bef711a02418ea6b2e15016d4dd065ada45e59848cfbeb2e127ab95ea71d3
+b636317b71a53dcec70cb7a127146a5f16c35ec6b4d8aad58b961afe236ba175
 ```
 
 ### PowerShell
 
-Open PowerShell in the folder containing the ZIP and run:
+Open PowerShell in the directory containing the ZIP and run:
 
 ```powershell
-Get-FileHash .\Cello_1.0.1_Portable_Windows_x64.zip -Algorithm SHA256
+Get-FileHash .\Cello_1.1.0_Windows_x64_Portable.zip -Algorithm SHA256
 ```
 
 The displayed hash must exactly match the official value above.
 
+The bundled launcher SHA-256 is:
+
+```text
+f4093b1be2d2c85e935b5447dab8a49b0b8d7c33211715a7f388b21236a85339
+```
+
 ## Windows security warning
 
-Because an independently distributed build may not have a widely recognized code-signing reputation, Windows can display a SmartScreen warning. Only run a file downloaded from the official repository release, verify its checksum, and do not bypass a warning for a file obtained elsewhere.
+Because an independently distributed executable may not yet have a widely recognized code-signing reputation, Windows can display a SmartScreen warning. Only run a copy obtained from the official Cello repository release and verify the SHA-256 checksum first.
+
+## Native Windows validation
+
+The v1.1.0 package is structurally verified as a Windows x64 portable build and passed its source-level automated checks. A final GUI smoke launch should still be performed on a Windows x64 host after downloading the published release asset.
 
 ## Uninstall
 
-Cello is portable. To remove it:
-
-1. Close Cello.
-2. Delete the extracted `Cello_1.0.1_Portable` folder.
-3. Delete the desktop shortcut if one was created.
-4. Delete the original downloaded ZIP if no longer needed.
-
-No separate Python installation or traditional Windows uninstaller is involved.
+Cello is portable. Close Cello, remove the extracted application folder, remove any shortcut you created, and delete the downloaded ZIP if no longer needed.
 
 ## Troubleshooting
 
-See **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)**.
+See [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).

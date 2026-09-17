@@ -1,33 +1,40 @@
 # Release process
 
-## 1. Update metadata
+## 1. Update release metadata
 
-Update these files to the new version:
+Before publishing a Cello version, update:
 
 - `VERSION`
-- `CHANGELOG.md`
 - `README.md`
+- `CHANGELOG.md`
+- `INSTALL.md`
 - `CITATION.cff`
+- `versions/README.md`
 - `versions/v<version>/`
-- `SECURITY.md`
 
-## 2. Build and test
+## 2. Build and validate
 
-Produce the portable Windows ZIP and test it on a clean Windows x64 environment.
-
-Required filename pattern:
+Produce a professional portable Windows x64 package containing the exact launcher:
 
 ```text
-Cello_<version>_Portable_Windows_x64.zip
+Run_Simulator.cello.exe
 ```
+
+The standard release filename is:
+
+```text
+Cello_<version>_Windows_x64_Portable.zip
+```
+
+At minimum, validate source compilation, automated tests, package integrity, launcher architecture, bundled runtime presence, release metadata, and checksums. A final native Windows GUI smoke launch should be completed on a Windows x64 host.
 
 ## 3. Generate checksums
 
 ```powershell
-Get-FileHash .\Cello_<version>_Portable_Windows_x64.zip -Algorithm SHA256
+Get-FileHash .\Cello_<version>_Windows_x64_Portable.zip -Algorithm SHA256
 ```
 
-Record the result in:
+Record release hashes in:
 
 ```text
 versions/v<version>/SHA256SUMS.txt
@@ -43,27 +50,29 @@ git push origin main
 git push origin v<version>
 ```
 
-## 5. Create GitHub Release
+## 5. Create the GitHub Release
 
 1. Open **Releases**.
-2. Choose **Draft a new release**.
+2. Draft a new release.
 3. Select or create tag `v<version>`.
-4. Use title `Cello v<version>`.
-5. Paste the prepared release notes.
+4. Use title `Cello v<version> - Windows x64 Portable`.
+5. Add the prepared release notes.
 6. Attach the portable ZIP and checksum file.
-7. Mark as a pre-release only when the build is not the current stable demo.
-8. Publish.
+7. Publish as the current release when validation is complete.
 
-## 6. Verify
+## 6. Post-publication verification
 
 - Download the release asset from GitHub.
-- Recompute its SHA-256.
-- Confirm the executable launches after extraction.
-- Confirm the README latest-release link resolves.
-- Confirm the release is listed as latest when intended.
+- Recompute SHA-256 and compare with the repository metadata.
+- Extract the full package.
+- Confirm `Run_Simulator.cello.exe` launches successfully on Windows x64.
+- Confirm the new application icon and UI branding are present.
+- Confirm the README and install instructions point to the current version.
+- Confirm the release is marked latest when intended.
 
-## v1.0.1 official checksum
+## v1.1.0 prepared checksums
 
 ```text
-9f5bef711a02418ea6b2e15016d4dd065ada45e59848cfbeb2e127ab95ea71d3
+ZIP:      b636317b71a53dcec70cb7a127146a5f16c35ec6b4d8aad58b961afe236ba175
+Launcher: f4093b1be2d2c85e935b5447dab8a49b0b8d7c33211715a7f388b21236a85339
 ```

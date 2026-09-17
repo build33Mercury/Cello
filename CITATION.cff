@@ -5,12 +5,12 @@ type: software
 authors:
   - family-names: Bitar
     given-names: Abdsalam
-version: 1.0.1
-date-released: 2026-08-06
+version: 1.1.0
+date-released: 2026-09-17
 license: LicenseRef-Proprietary
 abstract: >-
-  Cello is an interactive biochemical cell simulator and developer-oriented
-  visualization platform distributed as a portable Windows research-beta demo.
+  Cello is an interactive biochemical cell simulator and research-oriented
+  visualization platform distributed as a portable Windows research-beta application.
 keywords:
   - biochemistry
   - cell simulation
