@@ -1,7 +1,4 @@
 # Cello v1.1.0
-
-![Cello](cello.png)
-
 ![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
