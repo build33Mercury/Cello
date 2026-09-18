@@ -27,6 +27,14 @@ The project follows semantic versioning and uses GitHub Releases for downloadabl
 - Added bootstrap/runtime diagnostics under `%LOCALAPPDATA%\Cello\logs`
 - Preserved Cello icon resources in the rebuilt executable
 
+### Runtime repair
+
+- Corrected the direct private-Python startup path used by the single-file releases
+- Restored the CPython `struct` standard-library wrapper required by `zipfile`, Shiboken, and PySide6 during startup
+- The repair is embedded in the v1.1.0–v1.6.0 single-file builds
+- Corrected builds produce a new payload hash, so Cello prepares a fresh versioned runtime rather than reusing the affected cached runtime
+- Bootstrap diagnostics remain available under `%LOCALAPPDATA%\Cello\logs`
+
 ### Scientific guardrails
 
 - Population outputs are model-generated virtual-cell replicates, not biological replicates
@@ -41,6 +49,7 @@ The project follows semantic versioning and uses GitHub Releases for downloadabl
 - Embedded payload ZIP CRC: PASS
 - Windows PE32+ x86-64 structure: PASS
 - Cello icon resource directory: PASS
+- Required CPython `struct` compatibility wrapper: PASS
 - Native Windows GUI smoke launch: still required before host-level release verification
 
 ## [1.5.0] — 2026-09-17
