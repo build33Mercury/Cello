@@ -19,38 +19,37 @@ The project follows semantic versioning and uses GitHub Releases for downloadabl
 - CSV and JSON population export
 - Cancellable background population computation
 
-### Packaging
+### Startup and runtime hardening
 
-- Replaced the multi-file portable launcher layout with one Windows x64 release asset named `Cello.exe`
-- Added an embedded-payload bootstrap that verifies the payload SHA-256 before extraction
-- Added versioned runtime caching under `%LOCALAPPDATA%\Cello\runtime`
-- Added bootstrap/runtime diagnostics under `%LOCALAPPDATA%\Cello\logs`
-- Preserved Cello icon resources in the rebuilt executable
+The single-file v1.1.0–v1.6.0 builds were rebuilt again after real Windows startup testing exposed both runtime-compatibility and startup-latency problems.
 
-### Runtime repair
-
-- Corrected the direct private-Python startup path used by the single-file releases
-- Restored the CPython `struct` standard-library wrapper required by `zipfile`, Shiboken, and PySide6 during startup
-- The repair is embedded in the v1.1.0–v1.6.0 single-file builds
-- Corrected builds produce a new payload hash, so Cello prepares a fresh versioned runtime rather than reusing the affected cached runtime
-- Bootstrap diagnostics remain available under `%LOCALAPPDATA%\Cello\logs`
+- Added an immediate native Windows Cello startup window before Python/Qt import
+- Warm launches now reuse the prepared private runtime without re-extracting the embedded payload
+- Removed the redundant full embedded-payload read before first-run extraction
+- Deferred `MainWindow` import until after the lightweight startup cover is visible
+- Deferred Pathway Explorer, Perturbation Lab, Quantitative Analysis, Population Mode, plugin, recording-export, and reproducibility modules until their features are opened
+- Made Track Stats load Matplotlib only when plotting is actually opened
+- Moved desktop-shortcut creation off the GUI startup path
+- Added retry/fallback handling around Windows atomic file replacement for autosave, startup cache, and project archives
+- Restored the CPython `struct` wrapper required by Shiboken/PySide6 when using the private Python runtime directly
+- Kept versioned payload-hash runtime isolation so repaired builds do not reuse stale caches
 
 ### Scientific guardrails
 
 - Population outputs are model-generated virtual-cell replicates, not biological replicates
 - Heterogeneity is an imposed model assumption with a reproducible seed
-- Core `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.5.0
+- `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged by the startup/performance repairs
 
 ### Validation
 
-- Python source compilation: PASS
-- Population-core simulation smoke test: PASS
-- Embedded payload SHA-256 verification: PASS
-- Embedded payload ZIP CRC: PASS
 - Windows PE32+ x86-64 structure: PASS
-- Cello icon resource directory: PASS
-- Required CPython `struct` compatibility wrapper: PASS
-- Native Windows GUI smoke launch: still required before host-level release verification
+- Cello icon resource groups: PASS
+- Embedded payload footer/hash identity: PASS
+- Payload ZIP CRC/integrity: PASS
+- Startup-critical Python source syntax: PASS
+- Required private Python, Qt platform plugin, entry point, and `struct.py`: PASS
+- Scientific-core hash comparison against the pre-repair payloads: PASS
+- Native Windows GUI smoke launch: required before declaring each rebuilt binary host-verified
 
 ## [1.5.0] — 2026-09-17
 
@@ -104,10 +103,6 @@ The project follows semantic versioning and uses GitHub Releases for downloadabl
 - Simulation recording with trajectory, event, provenance, figure, and checksum output
 - Event markers and improved recording-state feedback
 - Refreshed light and dark interface
-
-### Rebuilt distribution
-
-The v1.1.0–v1.5.0 Windows builds were rebuilt into the same single-file `Cello.exe` bootstrap architecture used by v1.6.0 after the earlier multi-file startup path proved unreliable. These rebuilds are structurally and payload-integrity validated; native Windows GUI smoke testing remains the final host-level check.
 
 ## [1.0.1] — 2026-08-06
 

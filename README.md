@@ -11,13 +11,31 @@ Version 1.6.0 adds Population Mode for reproducible virtual-cell ensembles while
 
 ## Windows release
 
-The Windows release asset is a single file:
+The Windows release asset is one file:
 
 `Cello.exe`
 
-No ZIP extraction and no separate Python installation are required. Double-click `Cello.exe` to launch.
+No ZIP extraction and no separate Python installation are required.
 
-The executable contains Cello's private application payload and verifies it before preparing a versioned runtime under `%LOCALAPPDATA%\Cello\runtime`. Startup diagnostics are written under `%LOCALAPPDATA%\Cello\logs`.
+Double-clicking `Cello.exe` now opens a native Cello startup window immediately while the private runtime and scientific engine initialize. The first launch prepares a versioned runtime under `%LOCALAPPDATA%\Cello\runtime`; later launches reuse that prepared runtime and skip extraction.
+
+Startup diagnostics are written under `%LOCALAPPDATA%\Cello\logs`.
+
+## Startup architecture
+
+The rebuilt v1.1.0–v1.6.0 line uses the same startup-hardening architecture:
+
+- immediate native Windows startup feedback before Python or Qt imports
+- cached private runtime reuse on later launches
+- no extra full-payload verification pass before first-run extraction
+- ZIP member integrity validation during extraction
+- deferred heavy MainWindow and analysis-module imports
+- Matplotlib plotting loaded only when plotting features are opened
+- desktop-shortcut creation moved off the GUI startup path
+- retry/fallback handling for Windows file-lock races affecting autosave, project saves, and startup-cache writes
+- stale runtimes isolated by a versioned payload-hash runtime directory
+
+The official SHA-256 for each `Cello.exe` is recorded under `versions/v<version>/SHA256SUMS.txt`.
 
 ## Current capabilities
 
@@ -55,9 +73,11 @@ Study-specific use requires appropriate calibration, numerical verification, sen
 
 ## Release validation
 
-The rebuilt single-file Windows executables are structurally validated as PE32+ x86-64 GUI applications, contain the Cello icon resources, contain checksum-verified embedded payloads, and passed payload ZIP integrity checks. The v1.6 source compiles successfully and its population-core simulation smoke test passes. Core `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.5.0.
+The rebuilt executables are structurally validated as PE32+ x86-64 GUI applications, retain the Cello icon resources, contain version-correct payloads, and pass payload ZIP integrity checks. The optimized release line also passes Python source syntax checks for the startup-critical modules.
 
-A native Windows GUI smoke launch remains a host-level validation step and should be performed on Windows before a build is declared release-verified.
+The biochemical core files `simulation.py`, `regulation.py`, and `perturbations.py` are unchanged by the startup/performance repair.
+
+A native Windows launch remains the final host-level validation step for each newly rebuilt executable.
 
 ## Version history
 
