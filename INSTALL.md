@@ -4,7 +4,7 @@
 
 | Item | Value |
 |---|---|
-| Version | 1.6.0 |
+| Version | 1.7.0 |
 | Operating system | Windows 10 or Windows 11, 64-bit |
 | Distribution | Single Windows executable |
 | File name | `Cello.exe` |
@@ -14,29 +14,23 @@
 ## Run
 
 1. Open the repository's **Releases** page.
-2. Select the desired Cello version.
-3. Download the release asset named `Cello.exe`.
+2. Select Cello v1.7.0.
+3. Download `Cello.exe`.
 4. Double-click `Cello.exe`.
 
 There is no ZIP to extract and no companion runtime folder to keep beside the executable.
 
-## Private runtime
+## Private runtime and startup
 
-`Cello.exe` contains a checksum-protected application payload. On launch it prepares a private cache under:
+On first launch, `Cello.exe` prepares a versioned private runtime under:
 
-```text
-%LOCALAPPDATA%\Cello\runtime
-```
+`%LOCALAPPDATA%\Cello\runtime`
 
-The cache is versioned by the embedded payload hash. Cello verifies the embedded payload before using it.
+Later launches reuse the prepared runtime. Startup diagnostics are written under:
 
-Startup diagnostics are written under:
+`%LOCALAPPDATA%\Cello\logs`
 
-```text
-%LOCALAPPDATA%\Cello\logs
-```
-
-## Verify a release
+## Verify v1.7.0
 
 Use PowerShell:
 
@@ -44,7 +38,9 @@ Use PowerShell:
 Get-FileHash .\Cello.exe -Algorithm SHA256
 ```
 
-Compare the result with the SHA-256 published for the specific release version.
+Expected SHA-256:
+
+`2cada31c7023183b98b322a4251c55a391db80be04f0ca20ac07bd36741fa09d`
 
 ## Windows security warning
 
@@ -52,7 +48,9 @@ Because an independently distributed executable may not yet have a widely recogn
 
 ## Validation status
 
-The rebuilt single-file executables are structurally checked as Windows x64 GUI executables and their embedded payloads are checksum- and CRC-verified during the build process. A native Windows GUI smoke launch is still required before calling any individual build host-verified.
+The v1.7.0 executable is structurally checked as a Windows x64 GUI executable; its embedded payload is checksum- and CRC-verified; startup-critical Python sources compile; and the new Microenvironment scheduling core passes model-time boundary tests.
+
+A native Windows launch remains required before the exact published binary is called host-verified.
 
 ## Uninstall
 

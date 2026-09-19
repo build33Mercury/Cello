@@ -4,6 +4,44 @@ All notable changes to Cello are documented here.
 
 The project follows semantic versioning and uses GitHub Releases for downloadable Windows builds.
 
+## [1.7.0] — 2026-09-19
+
+### Added
+
+- Microenvironment Engine
+- Extracellular temperature, pH, osmolarity, volume, and perfusion controls
+- Editable represented-species concentration, reservoir, and exchange-rate controls
+- Reproducible model-condition presets
+- Scheduled environment events at explicit simulation times
+- Medium-replacement schedule events
+- Live environment summary and next-event status
+- Track Stats environment-event markers
+- JSON and CSV environment-schedule export
+- Experiment, recovery, and recording metadata preservation for environment schedules
+
+### Numerical behavior
+
+- The worker splits simulation advancement at each scheduled environment-event boundary
+- Environment events are therefore applied at model time rather than GUI refresh time
+
+### Scientific guardrails
+
+- Environment presets are model inputs, not validated culture protocols
+- Core `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.6.0
+
+### Validation
+
+- Windows PE32+ x86-64 GUI structure: PASS
+- Embedded payload SHA-256/footer identity: PASS
+- Payload ZIP CRC: PASS
+- Internal payload manifest verification: PASS
+- Python source compilation: PASS
+- Microenvironment schedule normalization/application: PASS
+- Exact schedule-boundary integration smoke test: PASS
+- Native Windows launch and Microenvironment Engine smoke test: pending host verification
+
+The project follows semantic versioning and uses GitHub Releases for downloadable Windows builds.
+
 ## [1.6.0] — 2026-09-18
 
 ### Added
@@ -39,17 +77,6 @@ The single-file v1.1.0–v1.6.0 builds were rebuilt again after real Windows sta
 - Population outputs are model-generated virtual-cell replicates, not biological replicates
 - Heterogeneity is an imposed model assumption with a reproducible seed
 - `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged by the startup/performance repairs
-
-### Validation
-
-- Windows PE32+ x86-64 structure: PASS
-- Cello icon resource groups: PASS
-- Embedded payload footer/hash identity: PASS
-- Payload ZIP CRC/integrity: PASS
-- Startup-critical Python source syntax: PASS
-- Required private Python, Qt platform plugin, entry point, and `struct.py`: PASS
-- Scientific-core hash comparison against the pre-repair payloads: PASS
-- Native Windows GUI smoke launch: required before declaring each rebuilt binary host-verified
 
 ## [1.5.0] — 2026-09-17
 
@@ -111,7 +138,3 @@ The single-file v1.1.0–v1.6.0 builds were rebuilt again after real Windows sta
 - First formally published portable Windows x64 release
 - Bundled private Python and scientific runtime
 - Desktop shortcut and Cello application integration
-
-## Earlier development builds
-
-Earlier internal development builds were not formally archived as public GitHub releases. The public version history begins with v1.0.1.

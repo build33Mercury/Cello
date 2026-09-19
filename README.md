@@ -1,13 +1,13 @@
-# Cello v1.6.0
+# Cello v1.7.0
 
-![Version](https://img.shields.io/badge/version-1.6.0-blue)
+![Version](https://img.shields.io/badge/version-1.7.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
 ![Distribution](https://img.shields.io/badge/distribution-single--file-success)
 
 **Cello is an interactive biochemical cell simulator and research-oriented visualization platform for Windows x64.**
 
-Version 1.6.0 adds Population Mode for reproducible virtual-cell ensembles while retaining the Experiment Workspace, Dynamic Pathway Explorer, Perturbation Lab, Quantitative Analysis, simulation recording, and live telemetry introduced across v1.1–v1.5.
+Version 1.7.0 adds the **Microenvironment Engine** while retaining Population Mode, Quantitative Analysis, Perturbation Lab, Dynamic Pathway Explorer, Experiment Workspace, simulation recording, and live telemetry.
 
 ## Windows release
 
@@ -15,69 +15,71 @@ The Windows release asset is one file:
 
 `Cello.exe`
 
-No ZIP extraction and no separate Python installation are required.
+No ZIP extraction and no separate Python installation are required. The optimized single-file startup architecture introduced in the repaired release line is retained.
 
-Double-clicking `Cello.exe` now opens a native Cello startup window immediately while the private runtime and scientific engine initialize. The first launch prepares a versioned runtime under `%LOCALAPPDATA%\Cello\runtime`; later launches reuse that prepared runtime and skip extraction.
+Official v1.7.0 SHA-256:
 
-Startup diagnostics are written under `%LOCALAPPDATA%\Cello\logs`.
+`2cada31c7023183b98b322a4251c55a391db80be04f0ca20ac07bd36741fa09d`
 
-## Startup architecture
+## Microenvironment Engine · v1.7
 
-The rebuilt v1.1.0–v1.6.0 line uses the same startup-hardening architecture:
+The Microenvironment Engine exposes extracellular boundary conditions already represented by Cello and adds reproducible time-scheduled environmental changes.
 
-- immediate native Windows startup feedback before Python or Qt imports
-- cached private runtime reuse on later launches
-- no extra full-payload verification pass before first-run extraction
-- ZIP member integrity validation during extraction
-- deferred heavy MainWindow and analysis-module imports
-- Matplotlib plotting loaded only when plotting features are opened
-- desktop-shortcut creation moved off the GUI startup path
-- retry/fallback handling for Windows file-lock races affecting autosave, project saves, and startup-cache writes
-- stale runtimes isolated by a versioned payload-hash runtime directory
+It supports:
 
-The official SHA-256 for each `Cello.exe` is recorded under `versions/v<version>/SHA256SUMS.txt`.
+- extracellular temperature
+- extracellular pH
+- osmolarity
+- medium volume
+- perfusion state
+- represented extracellular species concentrations
+- reservoir concentrations
+- species exchange rates
+- model-condition presets
+- scheduled environment events at explicit simulation times
+- medium-replacement events
+- live environment status and next-event reporting
+- environment-event markers in Track Stats
+- JSON and CSV schedule export
+- preservation of environment schedules in experiment/recovery/recording metadata
+
+Scheduled changes are applied by the simulation worker at the requested model time. The integration interval is split at event boundaries so event timing does not depend on GUI refresh timing.
+
+Presets are labeled **model conditions**. They are not experimentally validated culture protocols or claims that a particular tissue, incubator, organism, patient, or disease state has been reproduced.
 
 ## Current capabilities
 
 - interactive 3D biochemical cell visualization
 - deterministic biochemical simulation and model-state inspection
 - simulation recording and Track Stats live telemetry
-- Experiment Workspace with projects, branches, runs, notes, conditions, and comparisons
+- Experiment Workspace
 - Dynamic Pathway Explorer
 - Perturbation Lab
-- Quantitative Analysis with descriptive statistics and publication-oriented export
-- Population Mode with reproducible model-generated virtual-cell ensembles
-
-## Population Mode · v1.6
-
-Population Mode supports:
-
-- 2–500 independent virtual-cell model replicates
-- reproducible population seeds
-- configurable model-parameter heterogeneity
-- ATP, glucose, ROS, pH, damage, oxygen, membrane-potential, and pathway-flux metrics
-- median and interquartile-range trajectories
-- endpoint mean, SD, median, quartiles, minimum, and maximum
-- model-state fractions for healthy, stressed, injured, irreversibly injured, and necrotic virtual cells
-- per-cell endpoint export to CSV
-- structured JSON population export
-- cancellable background population computation
-
-Population outputs are simulated virtual-cell replicates. They are not biological replicates, patient observations, or experimental measurements.
+- Quantitative Analysis
+- Population Mode
+- Microenvironment Engine
 
 ## Scientific scope
 
-Cello is research-beta software. Its outputs are generated from the equations, parameters, assumptions, and abstractions implemented in the model. They are not clinical outputs, patient-specific predictions, a validated digital twin, or evidence that a biological mechanism is correct by themselves.
+Cello is research-beta software. Outputs are generated from implemented equations, parameters, assumptions, and abstractions. They are not clinical outputs, patient-specific predictions, experimental measurements, or a validated digital twin.
 
 Study-specific use requires appropriate calibration, numerical verification, sensitivity and uncertainty analysis, external or held-out validation where applicable, and independent scientific interpretation.
 
-## Release validation
+## Validation status
 
-The rebuilt executables are structurally validated as PE32+ x86-64 GUI applications, retain the Cello icon resources, contain version-correct payloads, and pass payload ZIP integrity checks. The optimized release line also passes Python source syntax checks for the startup-critical modules.
+For the v1.7.0 build:
 
-The biochemical core files `simulation.py`, `regulation.py`, and `perturbations.py` are unchanged by the startup/performance repair.
+- PE32+ Windows x64 GUI structure: PASS
+- embedded payload SHA-256/footer identity: PASS
+- embedded payload ZIP CRC: PASS
+- internal payload manifest verification: PASS
+- required private Python/Qt runtime components: PASS
+- Python source compilation: PASS
+- microenvironment schedule normalization/application tests: PASS
+- exact environment-event boundary integration smoke test: PASS
+- `simulation.py`, `regulation.py`, and `perturbations.py` unchanged from v1.6.0: PASS
 
-A native Windows launch remains the final host-level validation step for each newly rebuilt executable.
+Native Windows launch and headline-feature smoke testing remain host-level release verification steps.
 
 ## Version history
 

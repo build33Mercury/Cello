@@ -1,0 +1,20 @@
+{
+  "schema": "cello.release-manifest",
+  "version": "1.7.0",
+  "date": "2026-09-19",
+  "platform": "Windows x64",
+  "asset": "Cello.exe",
+  "sha256": "2cada31c7023183b98b322a4251c55a391db80be04f0ca20ac07bd36741fa09d",
+  "headline_feature": "Microenvironment Engine",
+  "scientific_status": "research beta; model-generated outputs; not clinical or experimental validation",
+  "build_validation": {
+    "pe32_plus_x64_gui": "PASS",
+    "embedded_payload_sha256": "PASS",
+    "payload_zip_crc": "PASS",
+    "internal_payload_manifest": "PASS",
+    "python_source_compilation": "PASS",
+    "environment_schedule_core_tests": "PASS",
+    "exact_event_boundary_smoke": "PASS",
+    "native_windows_gui": "PENDING"
+  }
+}
