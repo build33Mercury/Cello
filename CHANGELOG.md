@@ -4,6 +4,50 @@ All notable changes to Cello are documented here.
 
 The project follows semantic versioning and uses GitHub Releases for downloadable Windows builds.
 
+## [1.8.0] — 2026-09-19
+
+### Added
+
+- Experiment Automation
+- Up to three-factor computational condition matrices
+- Model-parameter sweeps
+- Microenvironment sweeps
+- Deterministic seed assignment and repeated model runs
+- Queue preview and per-run status
+- Final, mean, minimum, maximum, and AUC response summaries
+- One- and two-factor response plots
+- CSV results export
+- JSON run-bundle export
+- 2,000-run design guard
+
+### Interface
+
+- Refined Cello toward a conventional desktop-scientific interface
+- Neutralized feature-button color coding in the main header
+- Reduced oversized radii and decorative card treatment
+- Added standard group boxes, tabs, dense tables, and compact status text in Experiment Automation
+- Shortened high-visibility interface descriptions
+- Kept heavy plotting imports out of the normal startup path
+
+### Scientific behavior
+
+- Automated runs start from the active experiment state
+- Active v1.7 environment schedules are honored during automated runs
+- Repeated seeds are labeled computational repeats, not biological replicates
+- Parameter sweeps are model exploration, not empirical dose-response measurements
+- `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.7.0
+
+### Validation
+
+- Windows PE32+ x86-64 GUI structure: PASS
+- Payload footer SHA-256 identity: PASS
+- Payload ZIP CRC: PASS
+- 4,600-entry internal checksum manifest: PASS
+- Python source parsing: 62/62 PASS
+- Experiment Automation core checks: 9/9 PASS
+- Cello resource section preserved from v1.7: PASS
+- Native Windows launch and interactive automation smoke test: pending host verification
+
 ## [1.7.0] — 2026-09-19
 
 ### Added
@@ -29,19 +73,6 @@ The project follows semantic versioning and uses GitHub Releases for downloadabl
 - Environment presets are model inputs, not validated culture protocols
 - Core `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.6.0
 
-### Validation
-
-- Windows PE32+ x86-64 GUI structure: PASS
-- Embedded payload SHA-256/footer identity: PASS
-- Payload ZIP CRC: PASS
-- Internal payload manifest verification: PASS
-- Python source compilation: PASS
-- Microenvironment schedule normalization/application: PASS
-- Exact schedule-boundary integration smoke test: PASS
-- Native Windows launch and Microenvironment Engine smoke test: pending host verification
-
-The project follows semantic versioning and uses GitHub Releases for downloadable Windows builds.
-
 ## [1.6.0] — 2026-09-18
 
 ### Added
@@ -51,90 +82,42 @@ The project follows semantic versioning and uses GitHub Releases for downloadabl
 - Configurable parameter heterogeneity
 - Population sizes from 2 to 500 virtual cells
 - Median and interquartile-range population trajectories
-- Endpoint mean, SD, median, quartiles, minimum, and maximum
-- Model-state fractions for healthy, stressed, injured, irreversibly injured, and necrotic virtual cells
+- Endpoint summary statistics and model-state fractions
 - Per-cell endpoint inspection
 - CSV and JSON population export
-- Cancellable background population computation
 
 ### Startup and runtime hardening
 
-The single-file v1.1.0–v1.6.0 builds were rebuilt again after real Windows startup testing exposed both runtime-compatibility and startup-latency problems.
-
-- Added an immediate native Windows Cello startup window before Python/Qt import
-- Warm launches now reuse the prepared private runtime without re-extracting the embedded payload
-- Removed the redundant full embedded-payload read before first-run extraction
-- Deferred `MainWindow` import until after the lightweight startup cover is visible
-- Deferred Pathway Explorer, Perturbation Lab, Quantitative Analysis, Population Mode, plugin, recording-export, and reproducibility modules until their features are opened
-- Made Track Stats load Matplotlib only when plotting is actually opened
-- Moved desktop-shortcut creation off the GUI startup path
-- Added retry/fallback handling around Windows atomic file replacement for autosave, startup cache, and project archives
-- Restored the CPython `struct` wrapper required by Shiboken/PySide6 when using the private Python runtime directly
-- Kept versioned payload-hash runtime isolation so repaired builds do not reuse stale caches
-
-### Scientific guardrails
-
-- Population outputs are model-generated virtual-cell replicates, not biological replicates
-- Heterogeneity is an imposed model assumption with a reproducible seed
-- `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged by the startup/performance repairs
+- Immediate native Windows startup feedback
+- Cached private-runtime reuse
+- Deferred heavy analysis imports
+- Windows atomic-save retry/fallback handling
+- Restored the CPython `struct` wrapper required by direct private-Python startup
 
 ## [1.5.0] — 2026-09-17
 
-### Added
-
 - Quantitative Analysis workspace
-- Time-series, distribution, scatter, correlation-heatmap, and run-comparison views
-- Descriptive statistics, start/end change, fold change, percent change, trapezoidal AUC
-- Peak/trough detection and late-window stability diagnostics
-- CSV/JSON summary export and PNG/PDF/SVG figure export
+- Descriptive trajectory statistics and publication-oriented export
 
 ## [1.4.0] — 2026-09-17
 
-### Added
-
 - Perturbation Lab
-- Target-first perturbation design
-- Chemical perturbation and enzyme-activity scaling workflows
-- Control-state capture and restoration
-- Multi-intervention protocols
-- Live effect manifests
-- JSON and CSV protocol export
+- Control-state capture and multi-intervention protocols
 
 ## [1.3.0] — 2026-09-17
 
-### Added
-
 - Dynamic Pathway Explorer
-- Live pathway flux history
-- Interactive pathway maps and reaction inspection
-- Model-state, inhibition, evidence, and compartment cues
-- JSON and CSV pathway snapshot export
 
 ## [1.2.0] — 2026-09-17
 
-### Added
-
 - Experiment Workspace
-- `.cello-project` project archives with SHA-256 member verification
-- Project and experiment notes
-- Experiment duplication/branching
-- Multiple runs per experiment
-- Multi-run trajectory comparison and project-summary export
 
 ## [1.1.0] — 2026-09-17
 
-### Added
-
-- New blue Cello application identity
-- Configurable live research telemetry
-- Simulation recording with trajectory, event, provenance, figure, and checksum output
-- Event markers and improved recording-state feedback
-- Refreshed light and dark interface
+- Live research telemetry
+- Simulation recording
+- Refreshed Cello interface
 
 ## [1.0.1] — 2026-08-06
 
-### Added
-
 - First formally published portable Windows x64 release
-- Bundled private Python and scientific runtime
-- Desktop shortcut and Cello application integration

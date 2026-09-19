@@ -1,13 +1,13 @@
-# Cello v1.7.0
+# Cello v1.8.0
 
-![Version](https://img.shields.io/badge/version-1.7.0-blue)
+![Version](https://img.shields.io/badge/version-1.8.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
 ![Distribution](https://img.shields.io/badge/distribution-single--file-success)
 
 **Cello is an interactive biochemical cell simulator and research-oriented visualization platform for Windows x64.**
 
-Version 1.7.0 adds the **Microenvironment Engine** while retaining Population Mode, Quantitative Analysis, Perturbation Lab, Dynamic Pathway Explorer, Experiment Workspace, simulation recording, and live telemetry.
+Version 1.8.0 adds **Experiment Automation** and refines the interface toward a more conventional desktop scientific application: denser controls, neutral header tools, restrained corner radii, standard queue/results tables, and less decorative dashboard chrome.
 
 ## Windows release
 
@@ -15,49 +15,41 @@ The Windows release asset is one file:
 
 `Cello.exe`
 
-No ZIP extraction and no separate Python installation are required. The optimized single-file startup architecture introduced in the repaired release line is retained.
+No ZIP extraction and no separate Python installation are required. The optimized single-file startup architecture from v1.7 is retained.
 
-Official v1.7.0 SHA-256:
+Official v1.8.0 SHA-256:
 
-`2cada31c7023183b98b322a4251c55a391db80be04f0ca20ac07bd36741fa09d`
+`3cec037031e2abe24995bf171cd8c8039327ad42fe639fc702861014cdf50921`
 
-## Microenvironment Engine · v1.7
+## Experiment Automation · v1.8
 
-The Microenvironment Engine exposes extracellular boundary conditions already represented by Cello and adds reproducible time-scheduled environmental changes.
+Experiment Automation supports:
 
-It supports:
+- up to three sweep factors per condition matrix
+- model-parameter sweeps
+- extracellular pH, temperature, osmolarity, volume, and represented-medium species sweeps
+- deterministic seed assignment and repeated computational runs
+- queue preview before execution
+- run status tracking
+- final, mean, minimum, maximum, and trapezoidal-AUC response summaries
+- one- and two-factor response plotting
+- CSV results export
+- JSON run-bundle export
+- preservation of the current experiment state and v1.7 environment schedule during automated runs
+- a 2,000-run design safety limit
 
-- extracellular temperature
-- extracellular pH
-- osmolarity
-- medium volume
-- perfusion state
-- represented extracellular species concentrations
-- reservoir concentrations
-- species exchange rates
-- model-condition presets
-- scheduled environment events at explicit simulation times
-- medium-replacement events
-- live environment status and next-event reporting
-- environment-event markers in Track Stats
-- JSON and CSV schedule export
-- preservation of environment schedules in experiment/recovery/recording metadata
+Repeated seeds are computational repeats, not biological replicates. Parameter sweeps are model exploration, not empirical dose-response data.
 
-Scheduled changes are applied by the simulation worker at the requested model time. The integration interval is split at event boundaries so event timing does not depend on GUI refresh timing.
+## Interface refinement
 
-Presets are labeled **model conditions**. They are not experimentally validated culture protocols or claims that a particular tissue, incubator, organism, patient, or disease state has been reproduced.
+v1.8 keeps the Cello identity but uses a more conventional scientific-desktop presentation:
 
-## Current capabilities
-
-- interactive 3D biochemical cell visualization
-- deterministic biochemical simulation and model-state inspection
-- simulation recording and Track Stats live telemetry
-- Experiment Workspace
-- Dynamic Pathway Explorer
-- Perturbation Lab
-- Quantitative Analysis
-- Population Mode
-- Microenvironment Engine
+- neutralized header tool buttons
+- reduced rounded-card treatment
+- standard group boxes and tabbed queue/results views
+- more compact status and table typography
+- shorter functional descriptions
+- plotting libraries remain lazy-loaded until a plot is requested
 
 ## Scientific scope
 
@@ -67,19 +59,18 @@ Study-specific use requires appropriate calibration, numerical verification, sen
 
 ## Validation status
 
-For the v1.7.0 build:
+For the v1.8.0 build:
 
 - PE32+ Windows x64 GUI structure: PASS
 - embedded payload SHA-256/footer identity: PASS
 - embedded payload ZIP CRC: PASS
-- internal payload manifest verification: PASS
-- required private Python/Qt runtime components: PASS
-- Python source compilation: PASS
-- microenvironment schedule normalization/application tests: PASS
-- exact environment-event boundary integration smoke test: PASS
-- `simulation.py`, `regulation.py`, and `perturbations.py` unchanged from v1.6.0: PASS
+- 4,600-entry internal SHA-256 manifest verification: PASS
+- 62 Python source files parse successfully: PASS
+- Experiment Automation core checks: 9/9 PASS
+- v1.7 scientific-core files preserved byte-for-byte: PASS
+- Cello PE resource section preserved byte-for-byte from v1.7: PASS
 
-Native Windows launch and headline-feature smoke testing remain host-level release verification steps.
+Native Windows launch and interactive Experiment Automation smoke testing remain host-level verification steps.
 
 ## Version history
 

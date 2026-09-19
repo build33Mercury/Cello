@@ -1,0 +1,22 @@
+{
+  "schema": "cello.release-manifest",
+  "version": "1.8.0",
+  "date": "2026-09-19",
+  "platform": "Windows x64",
+  "asset": "Cello.exe",
+  "sha256": "3cec037031e2abe24995bf171cd8c8039327ad42fe639fc702861014cdf50921",
+  "headline_feature": "Experiment Automation",
+  "interface": "desktop-scientific refinement",
+  "scientific_status": "research beta; model-generated outputs; not clinical or experimental validation",
+  "validation": {
+    "pe32_plus_x64_gui": "PASS",
+    "embedded_payload_sha256": "PASS",
+    "payload_zip_crc": "PASS",
+    "internal_sha256_manifest": "4600/4600 PASS",
+    "python_source_parse": "62/62 PASS",
+    "automation_core_tests": "9/9 PASS",
+    "scientific_core_preserved": "PASS",
+    "resource_section_preserved": "PASS",
+    "native_windows_gui": "PENDING"
+  }
+}

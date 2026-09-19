@@ -8,7 +8,8 @@ The Windows release asset is a single executable named `Cello.exe`.
 
 | Version | Date | Status | Metadata |
 |---|---|---|---|
-| v1.7.0 | 2026-09-19 | Current | [Open](v1.7.0/README.md) |
+| v1.8.0 | 2026-09-19 | Current | [Open](v1.8.0/README.md) |
+| v1.7.0 | 2026-09-19 | Previous | [Open](v1.7.0/README.md) |
 | v1.6.0 | 2026-09-18 | Previous | [Open](v1.6.0/README.md) |
 | v1.5.0 | 2026-09-17 | Previous | [Open](v1.5.0/README.md) |
 | v1.4.0 | 2026-09-17 | Previous | [Open](v1.4.0/README.md) |
