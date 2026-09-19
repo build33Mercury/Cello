@@ -1,48 +1,35 @@
 # Changelog
 
-## [2.0.0] — 2026-09-19
+## [2.1.0] — 2026-09-19
 
-### Added
-- complete visual overhaul across all eight built-in cell models
-- professional pathway schematics with model-flux/status cues
-- PNG pathway-diagram export
-- Cell Model Library
-- model specification export
-- reproducible built-in-base model presets
+### Cell-specific pathways
 
-### Changed
-- restrained microscopy-inspired materials and lighting
-- denser scientific-workstation presentation
-- improved cell-profile-specific organelle landmarks
+- Specialized pathway choices are filtered by the selected cell model
+- Hepatocyte: hepatic glucose production, ketogenesis, urea-cycle/nitrogen disposal
+- Neuron: membrane excitation and synaptic vesicle cycle
+- Adipocyte: storage/lipolysis
+- Erythrocyte: 2,3-BPG/oxygen-affinity and NADPH/glutathione redox
+- Pancreatic beta cell: glucose-stimulated insulin secretion
+- Skeletal myocyte: excitation-contraction coupling and fuel mobilization
+- Plant mesophyll: photosynthesis, carbon partition, vacuolar/osmotic regulation
+
+### Spatial Biology
+
+- Added render-space organelle XY projection
+- Added pathway-anchor overlay and organelle filtering
+- Added local model activity/damage table
+- Added represented-count metadata
+- Added CSV, JSON and PNG spatial export
 
 ### Scientific preservation
-- `simulation.py`, `regulation.py`, and `perturbations.py` unchanged from v1.8.0
-- non-visual scientific CellModelSpec fields unchanged from v1.8.0
+
+- No new kinetic equations were added for specialized pathway display
+- `simulation.py`, `regulation.py`, `perturbations.py`, `cell_models.py` and `scene.py` are unchanged from v2.0.0
+
+## [2.0.0] — 2026-09-19
+
+- Visual Biology & Model Library major release
 
 ## [1.8.0] — 2026-09-19
+
 - Experiment Automation
-- desktop-scientific UI refinement
-
-## [1.7.0] — 2026-09-19
-- Microenvironment Engine
-
-## [1.6.0] — 2026-09-18
-- Population Mode
-
-## [1.5.0] — 2026-09-17
-- Quantitative Analysis
-
-## [1.4.0] — 2026-09-17
-- Perturbation Lab
-
-## [1.3.0] — 2026-09-17
-- Dynamic Pathway Explorer
-
-## [1.2.0] — 2026-09-17
-- Experiment Workspace
-
-## [1.1.0] — 2026-09-17
-- Live telemetry and simulation recording
-
-## [1.0.1] — 2026-08-06
-- First formally published Windows x64 release

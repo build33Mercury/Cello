@@ -5,19 +5,18 @@ type: software
 authors:
   - family-names: Bitar
     given-names: Abdsalam
-version: 2.0.0
+version: 2.1.0
 date-released: 2026-09-19
 license: LicenseRef-Proprietary
 abstract: >-
   Cello is an interactive biochemical cell simulator and research-oriented
-  visualization platform for Windows x64. Version 2.0 redesigns the built-in
-  cell visualization system, adds professional pathway schematics and a Cell
-  Model Library, while preserving the v1.8 kinetic core.
+  visualization platform for Windows x64. Version 2.1 adds Spatial Biology and
+  cell-specific pathway views while preserving the v2 kinetic core.
 keywords:
   - biochemistry
   - cell simulation
   - systems biology
   - scientific visualization
-  - computational biology
+  - spatial biology
   - pathway visualization
-  - cell models
+  - computational biology

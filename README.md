@@ -1,63 +1,68 @@
-# Cello v2.0.0
+# Cello v2.1.0
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.1.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
 ![Distribution](https://img.shields.io/badge/distribution-single--file-success)
 
 **Cello is an interactive biochemical cell simulator and research-oriented visualization platform for Windows x64.**
 
-Version 2.0 is a major visual-biology and model-workflow release. It redesigns all eight built-in cell-model visual profiles, upgrades the Pathway Explorer into a professional model-graph workspace, and adds a Cell Model Library for specifications and reproducible presets.
+Version 2.1.0 adds **Spatial Biology** and **cell-specific pathway workspaces** while retaining the full v2 visual overhaul, Cell Model Library, Experiment Automation, Microenvironment Engine, Population Mode, Quantitative Analysis, Perturbation Lab, Experiment Workspace, recording, and telemetry.
 
 ## Windows release
 
-The public release asset remains one file:
+The Windows release asset remains one file:
 
 `Cello.exe`
 
 SHA-256:
 
-`3f2750f387a255f22dcc5b07cc510851da3a9bf53ee3735a0054f47db9f24be5`
+`edfadd5362a8ebf042891928c26e7ccd3964948ca676fb906885145785fb718b`
 
-## Cello 2.0
+## Cell-specific pathways
 
-### Visual biology overhaul
+Specialized pathways now appear only when the matching cell model is active.
 
-- redesigned mammalian cell scaffold with restrained membrane/cytosol materials
-- upgraded nucleus/chromatin, ER, Golgi, mitochondria, vesicle and ribosome rendering
-- hepatocyte-specific polarity, glycogen and lipid landmarks
-- rebuilt neuronal arbor, axon, myelin and terminals
-- improved adipocyte lipid-droplet profile
-- procedural biconcave erythrocyte
-- expanded pancreatic beta-like granule rendering
-- skeletal-myocyte sarcomere cues
-- angular plant wall/membrane/vacuole profile with peripheral chloroplasts
+- **Hepatocyte:** hepatic glucose production, ketogenesis, nitrogen disposal / urea cycle
+- **Neuron:** membrane excitation, synaptic vesicle cycle
+- **Adipocyte:** substrate storage / lipolysis
+- **Erythrocyte:** 2,3-BPG / oxygen-affinity coupling, NADPH / glutathione redox
+- **Pancreatic beta cell:** glucose-stimulated insulin secretion
+- **Skeletal myocyte:** excitation-contraction coupling, fuel mobilization
+- **Plant mesophyll:** photosynthesis / carbon fixation, starch / respiratory partitioning, vacuolar osmotic regulation
+- **Generic mammalian:** core pathways only
 
-### Pathway workspace
+These maps are constrained to processes already represented by Cello. They do not silently add new kinetic equations.
 
-- professional node-and-arrow pathway schematics
-- represented-process labels and live model-flux values
-- inhibition/inactivity status styling
-- PNG pathway-diagram export
-- retained process/state tables and live flux history
+## Spatial Biology
 
-### Cell Model Library
+The new Spatial Biology workspace exposes:
 
-- inspect all eight built-in model specifications
-- export model specifications
-- save/import reproducible presets
-- presets reference built-in models and explicit parameter/environment overrides
-- imported presets do not silently inject new kinetic code
+- deterministic organelle render-space positions
+- pathway-anchor overlays
+- organelle-kind filtering
+- local model activity and damage readouts
+- represented-count metadata
+- CSV and JSON spatial snapshot export
+- PNG projection export
+
+Spatial coordinates are Cello visualization coordinates, not microscopy or spatial-omics measurements.
 
 ## Scientific preservation
 
-The v2 visual overhaul changes presentation and workflow, not the kinetic core. `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.8.0. Non-visual scientific fields in all built-in CellModelSpec entries are also unchanged.
-
-Cell geometry and pathway schematics remain explanatory model visualizations, not microscopy-derived reconstructions, experimental measurements, clinical outputs or validated digital twins.
+`simulation.py`, `regulation.py`, `perturbations.py`, `cell_models.py`, and `scene.py` are byte-for-byte unchanged from v2.0.0.
 
 ## Validation
 
-Build-time checks passed for all eight cell models, source parsing, payload integrity, internal checksums and scientific-core preservation. Native Windows GUI verification remains a host-level check.
+- 63/63 Python source files parse successfully
+- 8/8 cell-model simulation smoke tests pass
+- all 14 specialized pathway definitions reference fluxes emitted by the matching cell model
+- SpatialLayoutEngine smoke test passes across all 8 models with zero unresolved placements at seed 1010
+- 4,546 internal payload checksums verify
+- payload ZIP CRC: PASS
+- embedded payload footer SHA-256: PASS
+
+Native Windows GUI and interactive Spatial Biology/pathway testing remain host-level verification steps.
 
 ## Version history
 
