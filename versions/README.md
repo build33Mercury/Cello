@@ -1,14 +1,11 @@
 # Version archive
 
-This directory stores lightweight metadata for formally documented Cello versions.
-
-Compiled Windows builds are distributed through GitHub Releases and are not committed to Git history.
-
-The Windows release asset is a single executable named `Cello.exe`.
+Compiled Windows builds are distributed through GitHub Releases. The Windows release asset is `Cello.exe`.
 
 | Version | Date | Status | Metadata |
 |---|---|---|---|
-| v1.8.0 | 2026-09-19 | Current | [Open](v1.8.0/README.md) |
+| v2.0.0 | 2026-09-19 | Current | [Open](v2.0.0/README.md) |
+| v1.8.0 | 2026-09-19 | Previous | [Open](v1.8.0/README.md) |
 | v1.7.0 | 2026-09-19 | Previous | [Open](v1.7.0/README.md) |
 | v1.6.0 | 2026-09-18 | Previous | [Open](v1.6.0/README.md) |
 | v1.5.0 | 2026-09-17 | Previous | [Open](v1.5.0/README.md) |

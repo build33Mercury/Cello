@@ -5,21 +5,19 @@ type: software
 authors:
   - family-names: Bitar
     given-names: Abdsalam
-version: 1.8.0
+version: 2.0.0
 date-released: 2026-09-19
 license: LicenseRef-Proprietary
 abstract: >-
   Cello is an interactive biochemical cell simulator and research-oriented
-  visualization platform for Windows x64. Version 1.8.0 adds reproducible
-  experiment automation for model-parameter and microenvironment condition
-  matrices while retaining population simulation, quantitative analysis,
-  perturbation workflows, pathway exploration, and the Microenvironment Engine.
+  visualization platform for Windows x64. Version 2.0 redesigns the built-in
+  cell visualization system, adds professional pathway schematics and a Cell
+  Model Library, while preserving the v1.8 kinetic core.
 keywords:
   - biochemistry
   - cell simulation
   - systems biology
   - scientific visualization
   - computational biology
-  - experiment automation
-  - parameter sweep
-  - microenvironment
+  - pathway visualization
+  - cell models

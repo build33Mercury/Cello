@@ -1,81 +1,64 @@
-# Cello v1.8.0
+# Cello v2.0.0
 
-![Version](https://img.shields.io/badge/version-1.8.0-blue)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
 ![Distribution](https://img.shields.io/badge/distribution-single--file-success)
 
 **Cello is an interactive biochemical cell simulator and research-oriented visualization platform for Windows x64.**
 
-Version 1.8.0 adds **Experiment Automation** and refines the interface toward a more conventional desktop scientific application: denser controls, neutral header tools, restrained corner radii, standard queue/results tables, and less decorative dashboard chrome.
+Version 2.0 is a major visual-biology and model-workflow release. It redesigns all eight built-in cell-model visual profiles, upgrades the Pathway Explorer into a professional model-graph workspace, and adds a Cell Model Library for specifications and reproducible presets.
 
 ## Windows release
 
-The Windows release asset is one file:
+The public release asset remains one file:
 
 `Cello.exe`
 
-No ZIP extraction and no separate Python installation are required. The optimized single-file startup architecture from v1.7 is retained.
+SHA-256:
 
-Official v1.8.0 SHA-256:
+`3f2750f387a255f22dcc5b07cc510851da3a9bf53ee3735a0054f47db9f24be5`
 
-`3cec037031e2abe24995bf171cd8c8039327ad42fe639fc702861014cdf50921`
+## Cello 2.0
 
-## Experiment Automation · v1.8
+### Visual biology overhaul
 
-Experiment Automation supports:
+- redesigned mammalian cell scaffold with restrained membrane/cytosol materials
+- upgraded nucleus/chromatin, ER, Golgi, mitochondria, vesicle and ribosome rendering
+- hepatocyte-specific polarity, glycogen and lipid landmarks
+- rebuilt neuronal arbor, axon, myelin and terminals
+- improved adipocyte lipid-droplet profile
+- procedural biconcave erythrocyte
+- expanded pancreatic beta-like granule rendering
+- skeletal-myocyte sarcomere cues
+- angular plant wall/membrane/vacuole profile with peripheral chloroplasts
 
-- up to three sweep factors per condition matrix
-- model-parameter sweeps
-- extracellular pH, temperature, osmolarity, volume, and represented-medium species sweeps
-- deterministic seed assignment and repeated computational runs
-- queue preview before execution
-- run status tracking
-- final, mean, minimum, maximum, and trapezoidal-AUC response summaries
-- one- and two-factor response plotting
-- CSV results export
-- JSON run-bundle export
-- preservation of the current experiment state and v1.7 environment schedule during automated runs
-- a 2,000-run design safety limit
+### Pathway workspace
 
-Repeated seeds are computational repeats, not biological replicates. Parameter sweeps are model exploration, not empirical dose-response data.
+- professional node-and-arrow pathway schematics
+- represented-process labels and live model-flux values
+- inhibition/inactivity status styling
+- PNG pathway-diagram export
+- retained process/state tables and live flux history
 
-## Interface refinement
+### Cell Model Library
 
-v1.8 keeps the Cello identity but uses a more conventional scientific-desktop presentation:
+- inspect all eight built-in model specifications
+- export model specifications
+- save/import reproducible presets
+- presets reference built-in models and explicit parameter/environment overrides
+- imported presets do not silently inject new kinetic code
 
-- neutralized header tool buttons
-- reduced rounded-card treatment
-- standard group boxes and tabbed queue/results views
-- more compact status and table typography
-- shorter functional descriptions
-- plotting libraries remain lazy-loaded until a plot is requested
+## Scientific preservation
 
-## Scientific scope
+The v2 visual overhaul changes presentation and workflow, not the kinetic core. `simulation.py`, `regulation.py`, and `perturbations.py` are byte-for-byte unchanged from v1.8.0. Non-visual scientific fields in all built-in CellModelSpec entries are also unchanged.
 
-Cello is research-beta software. Outputs are generated from implemented equations, parameters, assumptions, and abstractions. They are not clinical outputs, patient-specific predictions, experimental measurements, or a validated digital twin.
+Cell geometry and pathway schematics remain explanatory model visualizations, not microscopy-derived reconstructions, experimental measurements, clinical outputs or validated digital twins.
 
-Study-specific use requires appropriate calibration, numerical verification, sensitivity and uncertainty analysis, external or held-out validation where applicable, and independent scientific interpretation.
+## Validation
 
-## Validation status
-
-For the v1.8.0 build:
-
-- PE32+ Windows x64 GUI structure: PASS
-- embedded payload SHA-256/footer identity: PASS
-- embedded payload ZIP CRC: PASS
-- 4,600-entry internal SHA-256 manifest verification: PASS
-- 62 Python source files parse successfully: PASS
-- Experiment Automation core checks: 9/9 PASS
-- v1.7 scientific-core files preserved byte-for-byte: PASS
-- Cello PE resource section preserved byte-for-byte from v1.7: PASS
-
-Native Windows launch and interactive Experiment Automation smoke testing remain host-level verification steps.
+Build-time checks passed for all eight cell models, source parsing, payload integrity, internal checksums and scientific-core preservation. Native Windows GUI verification remains a host-level check.
 
 ## Version history
 
 See [CHANGELOG.md](CHANGELOG.md) and [versions/](versions/README.md).
-
-## License and limitations
-
-Cello's original project materials are distributed under the terms in [LICENSE](LICENSE). Bundled third-party components remain governed by their own licenses.

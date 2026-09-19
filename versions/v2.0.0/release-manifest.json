@@ -1,0 +1,12 @@
+{
+  "schema": "cello.release-manifest",
+  "version": "2.0.0",
+  "date": "2026-09-19",
+  "platform": "Windows x64",
+  "asset": "Cello.exe",
+  "sha256": "3f2750f387a255f22dcc5b07cc510851da3a9bf53ee3735a0054f47db9f24be5",
+  "release_name": "Visual Biology & Model Library",
+  "cell_models_updated": 8,
+  "scientific_core_preserved": true,
+  "native_windows_gui": "PENDING"
+}
