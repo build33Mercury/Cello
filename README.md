@@ -1,68 +1,56 @@
-# Cello v2.1.0
+# Cello v3.0.0
 
-![Version](https://img.shields.io/badge/version-2.1.0-blue)
+![Version](https://img.shields.io/badge/version-3.0.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
 ![Distribution](https://img.shields.io/badge/distribution-single--file-success)
 
 **Cello is an interactive biochemical cell simulator and research-oriented visualization platform for Windows x64.**
 
-Version 2.1.0 adds **Spatial Biology** and **cell-specific pathway workspaces** while retaining the full v2 visual overhaul, Cell Model Library, Experiment Automation, Microenvironment Engine, Population Mode, Quantitative Analysis, Perturbation Lab, Experiment Workspace, recording, and telemetry.
+Version 3.0 is the **Biochemical Atlas, Cell Dynamics & Division** release.
 
 ## Windows release
 
-The Windows release asset remains one file:
+The public release asset remains one file:
 
 `Cello.exe`
 
 SHA-256:
 
-`edfadd5362a8ebf042891928c26e7ccd3964948ca676fb906885145785fb718b`
+`e52ab615a7614b3b2b11456eb9e99367ed249cd2d1f873ff5d5ca8511bfd6b69`
 
-## Cell-specific pathways
+## v3 highlights
 
-Specialized pathways now appear only when the matching cell model is active.
+- repaired Dynamic Pathway Explorer initialization
+- cell-aware **View Pathways** buttons that change immediately with the selected cell model
+- a 119-entry biochemical pathway atlas spanning major metabolic, signaling, gene-expression, redox, nucleotide, DNA-maintenance, cell-cycle and plant pathway families
+- explicit separation of **SIMULATED**, **STATE-DERIVED**, and **REFERENCE SCHEMATIC** pathway coverage
+- cell-specific pathways including hepatocyte ketogenesis/glucose-output/urea-cycle views and beta-cell insulin-secretion/biosynthesis/granule views
+- DNA replication / S-phase pathway view for nucleated models
+- four pathway graph modes: flux history, process snapshot, state snapshot and phase portrait
+- brighter cell rendering
+- low-amplitude real-time visual mobility for mobile organelles and structures
+- triggerable S-phase → prophase → metaphase → anaphase → telophase → cytokinesis visualization ending in two daughter cells
 
-- **Hepatocyte:** hepatic glucose production, ketogenesis, nitrogen disposal / urea cycle
-- **Neuron:** membrane excitation, synaptic vesicle cycle
-- **Adipocyte:** substrate storage / lipolysis
-- **Erythrocyte:** 2,3-BPG / oxygen-affinity coupling, NADPH / glutathione redox
-- **Pancreatic beta cell:** glucose-stimulated insulin secretion
-- **Skeletal myocyte:** excitation-contraction coupling, fuel mobilization
-- **Plant mesophyll:** photosynthesis / carbon fixation, starch / respiratory partitioning, vacuolar osmotic regulation
-- **Generic mammalian:** core pathways only
+## Scientific boundary
 
-These maps are constrained to processes already represented by Cello. They do not silently add new kinetic equations.
+The atlas is broad coverage of major biochemical pathway families; it is not a claim to encode every known reaction, isoenzyme or tissue-specific branch. Reference schematics do not create hidden kinetics.
 
-## Spatial Biology
+The mitosis sequence is a visual model-communication demonstration. It does not duplicate the underlying biochemical simulation state or constitute a calibrated kinetic cell-cycle model.
 
-The new Spatial Biology workspace exposes:
-
-- deterministic organelle render-space positions
-- pathway-anchor overlays
-- organelle-kind filtering
-- local model activity and damage readouts
-- represented-count metadata
-- CSV and JSON spatial snapshot export
-- PNG projection export
-
-Spatial coordinates are Cello visualization coordinates, not microscopy or spatial-omics measurements.
-
-## Scientific preservation
-
-`simulation.py`, `regulation.py`, `perturbations.py`, `cell_models.py`, and `scene.py` are byte-for-byte unchanged from v2.0.0.
+`simulation.py`, `regulation.py`, `perturbations.py`, and `cell_models.py` remain byte-for-byte unchanged from v2.1.0.
 
 ## Validation
 
 - 63/63 Python source files parse successfully
-- 8/8 cell-model simulation smoke tests pass
-- all 14 specialized pathway definitions reference fluxes emitted by the matching cell model
-- SpatialLayoutEngine smoke test passes across all 8 models with zero unresolved placements at seed 1010
-- 4,546 internal payload checksums verify
+- 8/8 built-in cell-model simulation smoke tests pass
+- 119/119 pathway definitions are unique
+- every pathway labelled SIMULATED references an emitted flux in every cell model where it is exposed
+- 4,544/4,544 internal SHA-256 entries verify
 - payload ZIP CRC: PASS
-- embedded payload footer SHA-256: PASS
-
-Native Windows GUI and interactive Spatial Biology/pathway testing remain host-level verification steps.
+- embedded payload footer hash: PASS
+- Windows x64 GUI PE structure and resource section: PASS
+- native Windows GUI/interactive v3 feature smoke testing: pending host verification
 
 ## Version history
 

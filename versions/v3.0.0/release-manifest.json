@@ -1,0 +1,13 @@
+{
+  "schema": "cello.release-manifest",
+  "version": "3.0.0",
+  "date": "2026-09-20",
+  "platform": "Windows x64",
+  "asset": "Cello.exe",
+  "sha256": "e52ab615a7614b3b2b11456eb9e99367ed249cd2d1f873ff5d5ca8511bfd6b69",
+  "release_name": "Biochemical Atlas, Cell Dynamics & Division",
+  "pathway_atlas_entries": 119,
+  "graph_modes": 4,
+  "scientific_core_preserved": true,
+  "native_windows_gui": "PENDING"
+}
