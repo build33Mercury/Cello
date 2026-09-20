@@ -4,16 +4,20 @@
 
 | Item | Value |
 |---|---|
-| Version | 3.0.0 |
+| Version | 3.1.0 |
 | Operating system | Windows 10 or Windows 11, 64-bit |
 | Distribution | Single Windows executable |
 | File name | `Cello.exe` |
 | Separate Python required | No |
 | Installer required | No |
 
-Download the v3.0.0 asset named `Cello.exe` and double-click it.
+Download the v3.1.0 asset named `Cello.exe` and double-click it.
 
-The first launch prepares a private runtime under `%LOCALAPPDATA%\Cello\runtime`. Later launches reuse the versioned prepared runtime.
+The first launch prepares a private versioned runtime under:
+
+`%LOCALAPPDATA%\Cello\runtime`
+
+Later launches reuse the prepared runtime.
 
 Verify the file:
 
@@ -23,8 +27,6 @@ Get-FileHash .\Cello.exe -Algorithm SHA256
 
 Expected SHA-256:
 
-`e52ab615a7614b3b2b11456eb9e99367ed249cd2d1f873ff5d5ca8511bfd6b69`
+`d0751627a2ae980026e10d2bfed4f41961eb249f88353e1f82b8295049becbd9`
 
 Startup diagnostics are written under `%LOCALAPPDATA%\Cello\logs`.
-
-Native Windows launch of the exact release bytes remains the final host-level verification step.

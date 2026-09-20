@@ -1,0 +1,13 @@
+{
+  "schema": "cello.release-manifest",
+  "version": "3.1.0",
+  "date": "2026-09-20",
+  "platform": "Windows x64",
+  "asset": "Cello.exe",
+  "sha256": "d0751627a2ae980026e10d2bfed4f41961eb249f88353e1f82b8295049becbd9",
+  "release_name": "Pathway Workflow & Cell-Dynamics Polish",
+  "pathway_atlas_entries": 119,
+  "scientific_core_preserved": true,
+  "internal_manifest": "4544/4544 PASS",
+  "native_windows_gui": "PENDING"
+}

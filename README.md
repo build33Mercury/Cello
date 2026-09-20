@@ -1,13 +1,13 @@
-# Cello v3.0.0
+# Cello v3.1.0
 
-![Version](https://img.shields.io/badge/version-3.0.0-blue)
+![Version](https://img.shields.io/badge/version-3.1.0-blue)
 ![Platform](https://img.shields.io/badge/platform-Windows%20x64-0078D6)
 ![Status](https://img.shields.io/badge/status-research%20beta-orange)
 ![Distribution](https://img.shields.io/badge/distribution-single--file-success)
 
 **Cello is an interactive biochemical cell simulator and research-oriented visualization platform for Windows x64.**
 
-Version 3.0 is the **Biochemical Atlas, Cell Dynamics & Division** release.
+Version 3.1 is a stabilization and workflow-polish release built on v3.0.
 
 ## Windows release
 
@@ -17,40 +17,55 @@ The public release asset remains one file:
 
 SHA-256:
 
-`e52ab615a7614b3b2b11456eb9e99367ed249cd2d1f873ff5d5ca8511bfd6b69`
+`d0751627a2ae980026e10d2bfed4f41961eb249f88353e1f82b8295049becbd9`
 
-## v3 highlights
+## v3.1 improvements
 
-- repaired Dynamic Pathway Explorer initialization
-- cell-aware **View Pathways** buttons that change immediately with the selected cell model
-- a 119-entry biochemical pathway atlas spanning major metabolic, signaling, gene-expression, redox, nucleotide, DNA-maintenance, cell-cycle and plant pathway families
-- explicit separation of **SIMULATED**, **STATE-DERIVED**, and **REFERENCE SCHEMATIC** pathway coverage
-- cell-specific pathways including hepatocyte ketogenesis/glucose-output/urea-cycle views and beta-cell insulin-secretion/biosynthesis/granule views
-- DNA replication / S-phase pathway view for nucleated models
-- four pathway graph modes: flux history, process snapshot, state snapshot and phase portrait
-- brighter cell rendering
-- low-amplitude real-time visual mobility for mobile organelles and structures
-- triggerable S-phase → prophase → metaphase → anaphase → telophase → cytokinesis visualization ending in two daughter cells
+### Pathway Explorer
 
-## Scientific boundary
+- coverage filters for **Simulated**, **State-derived**, and **Reference schematic**
+- **Cell-specific** filter
+- persistent pinned pathways
+- Ctrl+F search focus
+- pathway graph export to PNG, PDF, and SVG
+- pathway tables/maps remain available if the plotting backend cannot initialize
+- guarded startup with a dedicated `PATHWAY_EXPLORER_ERROR.txt` diagnostic instead of a silent failure
 
-The atlas is broad coverage of major biochemical pathway families; it is not a claim to encode every known reaction, isoenzyme or tissue-specific branch. Reference schematics do not create hidden kinetics.
+### Cell dynamics
 
-The mitosis sequence is a visual model-communication demonstration. It does not duplicate the underlying biochemical simulation state or constitute a calibrated kinetic cell-cycle model.
+- mitosis pause/resume
+- 0.5×, 1×, 1.5×, and 2× playback speeds
+- live stage/progress display
+- division demo disabled for cell models outside the explicitly supported visual-demo set
+- user-toggleable ambient organelle motion
 
-`simulation.py`, `regulation.py`, `perturbations.py`, and `cell_models.py` remain byte-for-byte unchanged from v2.1.0.
+## Scientific preservation
+
+v3.1 does not add or modify kinetic equations or pathway definitions.
+
+The following files are byte-for-byte unchanged from v3.0:
+
+- `simulation.py`
+- `regulation.py`
+- `perturbations.py`
+- `cell_models.py`
+- `pathway_data.py`
+
+Pathway coverage retains the v3 contract: **SIMULATED**, **STATE-DERIVED**, and **REFERENCE SCHEMATIC**.
+
+The cell-division sequence remains a visual communication demonstration, not a calibrated kinetic cell-cycle model.
 
 ## Validation
 
 - 63/63 Python source files parse successfully
 - 8/8 built-in cell-model simulation smoke tests pass
-- 119/119 pathway definitions are unique
-- every pathway labelled SIMULATED references an emitted flux in every cell model where it is exposed
+- 119/119 pathway definitions remain unique
+- simulated pathways retain emitted-flux coverage
 - 4,544/4,544 internal SHA-256 entries verify
-- payload ZIP CRC: PASS
+- embedded payload ZIP CRC: PASS
 - embedded payload footer hash: PASS
-- Windows x64 GUI PE structure and resource section: PASS
-- native Windows GUI/interactive v3 feature smoke testing: pending host verification
+- Windows x64 GUI PE/resource structure: PASS
+- native Windows GUI smoke test: pending host verification
 
 ## Version history
 
