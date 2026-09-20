@@ -1,0 +1,19 @@
+{
+  "schema": "cello.release-manifest",
+  "version": "3.2.0",
+  "date": "2026-09-20",
+  "platform": "Windows x64",
+  "asset": "Cello.exe",
+  "sha256": "f0e8ca33e1806d4b6c863e8ffdd25fbe0b191c34a3144a488c220b2af71e3a30",
+  "release_name": "Model Sensitivity & Uncertainty",
+  "scientific_core_preserved": true,
+  "pathway_atlas_entries": 119,
+  "validation": {
+    "source_ast": "65/65 PASS",
+    "cell_model_smoke": "8/8 PASS",
+    "local_sensitivity": "PASS",
+    "uncertainty": "PASS",
+    "internal_manifest": "4547/4547 PASS",
+    "native_windows_gui": "PENDING"
+  }
+}
