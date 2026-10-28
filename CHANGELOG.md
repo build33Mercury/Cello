@@ -30,6 +30,8 @@
 ## [2.0.0] — 2026-09-19
 - Visual Biology & Model Library
 
+## [1.3] - 2026-10-26
+
 ## [1.2] - 2026-10-2
 - This version improves on v1,1 by improving the UI, mathematically accurate biochemical pathways and more.
 
